@@ -7,9 +7,9 @@ from .forms import StoryAdminForm
 # Customize the fields to be displayed when adding a new park
 class StoryAdmin(admin.ModelAdmin):
     form = StoryAdminForm
-    search_fields = ['id','title','genre', 'age_limit'] # Allow search by these fields
+    search_fields = ['title','genre', 'age_limit'] # Allow search by these fields
 
-    list_display = ['id','title','genre', 'age_limit','created_at','updated_at'] 
+    list_display = ['title','genre', 'age_limit','created_at','updated_at'] 
     
 # Register your Story model with custom StoryAdmin
 admin.site.register(Story, StoryAdmin)
