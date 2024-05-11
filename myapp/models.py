@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+
 class Story(models.Model):
     CATEGORIES = [
         ('Adventure', 'Adventure'),
@@ -21,11 +23,18 @@ class Story(models.Model):
     users_who_like = models.ManyToManyField(User, related_name="favorite_stories")
     created_at = models.DateTimeField(auto_now_add= True)
     updated_at = models.DateTimeField(auto_now= True)
+
+    def __str__ (self):
+        return f"{self.title}"
+    
+
 class Comment(models.Model):
     comment_content = models.CharField(max_length=255)
     user_who_comment = models.ForeignKey(User, related_name="user_who_comment", on_delete= models.CASCADE)
     created_at = models.DateTimeField(auto_now_add= True)
     updated_at = models.DateTimeField(auto_now= True)
+
+
 class Rate(models.Model):
     user_who_rate = models.ForeignKey(User, related_name= "rate", on_delete= models.CASCADE)
     story_which_rate = models.ForeignKey(Story, related_name="story_rate", on_delete= models.CASCADE)
