@@ -21,6 +21,15 @@ python
 ---
 django
 ---
+ jQuery
+ ---
+Bootstrap
+---
+Mixitup
+---
+SCSS
+---
+
 
 Screenshots of the website (KidsWorld) :
 ---
