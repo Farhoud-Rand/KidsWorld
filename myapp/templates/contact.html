@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -37,6 +37,12 @@
       type="image/png"
       href="{% static 'images/favicon.png' %}"
     />
+    <!-- Include SweetAlert CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"
+    />
+
     <!-- Title -->
     <title>KidsWorld</title>
   </head>
@@ -57,13 +63,14 @@
             <div class="col-lg-6 col-md-6">
               <ul class="header-left-content">
                 <li>
-                  <a href="mailto:info@kidsWorld.com">
+                  <a href="mailto:k16735848@gmail.com">
                     <i class="ri-mail-open-fill"></i>
-                    info@kidsWorld.com
+                    k16735848@gmail.com
                   </a>
                 </li>
               </ul>
             </div>
+            {% if request.user.is_authenticated %}
             <div class="col-lg-6 col-md-6">
               <div class="header-right-content">
                 <ul class="my-account">
@@ -73,30 +80,17 @@
                       My account
                       <i class="ri-arrow-down-s-line"></i>
                     </a>
+
                     <ul class="my-account-link">
                       <li>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="modal"
-                          data-bs-target="#staticBackdrop"
-                        >
-                          Log In
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="modal"
-                          data-bs-target="#staticBackdrop-2"
-                        >
-                          Register
-                        </a>
+                        <a href="/logout"> Log Out </a>
                       </li>
                     </ul>
                   </li>
                 </ul>
               </div>
             </div>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -107,17 +101,24 @@
           <div class="container">
             <div class="mobile-responsive-menu">
               <div class="logo">
-                <a href="index.html">
+                {% if request.user.is_authenticated %}
+                <a href="/home">
                   <img src="{% static 'images/logo.png' %}" alt="logo" />
                 </a>
+                {% else %}
+                <a href="/about">
+                  <img src="{% static 'images/logo.png' %}" alt="logo" />
+                </a>
+                {% endif %}
               </div>
             </div>
           </div>
         </div>
         <div class="desktop-nav">
           <div class="container">
+            {% if request.user.is_authenticated %}
             <nav class="navbar navbar-expand-md navbar-light">
-              <a class="navbar-brand" href="home_with_login.html">
+              <a class="navbar-brand" href="/home">
                 <img src="{% static 'images/logo.png' %}" alt="logo" />
               </a>
               <div
@@ -126,30 +127,58 @@
               >
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a href="home_with_login.html" class="nav-link">
+                    <a href="/home" class="nav-link">
                       <!-- Also we can use : "galleries.html" -->
                       Home
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="profile.html" class="nav-link"> Profile </a>
+                    <a href="/profile" class="nav-link"> Profile </a>
                   </li>
                   <li class="nav-item">
-                    <a href="favorite_list.html" class="nav-link">
+                    <a href="/favorite_list" class="nav-link">
                       Favorite List
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="about.html" class="nav-link"> About us </a>
+                    <a href="/about" class="nav-link"> About us </a>
                   </li>
                   <li class="nav-item">
-                    <a href="contact.html" class="nav-link active">
-                      Contact us
-                    </a>
+                    <a href="/contact" class="nav-link active"> Contact us </a>
                   </li>
                 </ul>
               </div>
             </nav>
+            {% else %}
+            <nav class="navbar navbar-expand-md navbar-light">
+              <a class="navbar-brand" href="/about">
+                <img src="{% static 'images/logo.png' %}" alt="logo" />
+              </a>
+
+              <div
+                class="collapse navbar-collapse mean-menu"
+                id="navbarSupportedContent"
+              >
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a href="/register" class="nav-link"> Register </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="/login" class="nav-link"> Login </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="/about" class="nav-link"> About us </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="/contact" class="nav-link active"> Contact us </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+            {% endif %}
           </div>
         </div>
         <div class="others-option-for-responsive">
@@ -165,31 +194,7 @@
               <div class="option-inner">
                 <div
                   class="others-option justify-content-center d-flex align-items-center"
-                >
-                  <ul>
-                    <li>
-                      <div class="option-item">
-                        <i class="search-btn ri-search-line"></i>
-                        <i class="close-btn ri-close-line"></i>
-                        <div class="search-overlay search-popup">
-                          <div class="search-box">
-                            <form class="search-form">
-                              <input
-                                class="search-input"
-                                name="search"
-                                placeholder="Search"
-                                type="text"
-                              />
-                              <button class="search-button" type="submit">
-                                <i class="ri-search-line"></i>
-                              </button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                ></div>
               </div>
             </div>
           </div>
@@ -198,160 +203,20 @@
       <!-- End Navbar Area -->
     </header>
     <!-- End Header Area -->
-    <!-- Start Log In Modal -->
-    <div
-      class="modal fade"
-      id="staticBackdrop"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <button
-            type="button"
-            class="close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
-            <i class="ri-close-circle-line"></i>
-          </button>
-          <div class="modal-body">
-            <div class="container">
-              <div class="account-title">
-                <h2>Log in to your account</h2>
-              </div>
-              <div class="contact-form-action">
-                <form method="post">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input class="form-control" type="text" name="name" />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input
-                          class="form-control"
-                          type="password"
-                          name="password"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="login-action">
-                        <span class="log-rem">
-                          <input id="remember" type="checkbox" />
-                          <label for="remember">Remember me!</label>
-                        </span>
-                        <span class="forgot-login">
-                          <a href="recover-password.html"
-                            >Forgot your password?</a
-                          >
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <button class="default-btn" type="submit">Log In</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Log In Modal -->
-    <!-- Start Register Modal -->
-    <div
-      class="modal fade"
-      id="staticBackdrop-2"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <button
-            type="button"
-            class="close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
-            <i class="ri-close-circle-line"></i>
-          </button>
-          <div class="modal-body">
-            <div class="container">
-              <div class="account-title">
-                <h2>Register your account</h2>
-              </div>
-              <div class="contact-form-action">
-                <form method="post">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label>Full name</label>
-                        <input class="form-control" type="text" name="name" />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label>Email address</label>
-                        <input class="form-control" type="email" name="email" />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input
-                          class="form-control"
-                          type="password"
-                          name="password"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input
-                          class="form-control"
-                          type="password"
-                          name="password"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-lg-12">
-                      <div class="row align-items-center">
-                        <div class="col-12">
-                          <button class="default-btn" type="submit">
-                            Register Now
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Register Modal -->
+
     <!-- Start Page Title Area -->
     <div class="page-title-area bg-8">
       <div class="container">
         <div class="page-title-content">
           <h2>Contact</h2>
+          {% if request.user.is_authenticated %}
           <ul>
             <li>
               <a href="index.html"> Home </a>
             </li>
             <li class="active">Contact</li>
           </ul>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -385,7 +250,7 @@
                   <h3>Email</h3>
                   <p>
                     <i class="ri-mail-open-fill"></i>
-                    <a href="mailto:info@kidsWorld.com">info@kidsWorld.com</a>
+                    <a href="mailto:k16735848@gmail.com">k16735848@gmail.com</a>
                   </p>
                 </div>
               </div>
@@ -398,7 +263,8 @@
               anything you need. Don't hesitate to send us an email.
             </p>
           </div>
-          <form id="contactForm">
+          <form id="contactForm" method="post">
+            {% csrf_token %}
             <div class="row">
               <div class="col-lg-6 col-sm-6">
                 <div class="form-group">
@@ -482,14 +348,22 @@
       </div>
     </section>
     <!-- End Contact Area -->
+    <input type="hidden" id="csrf_token" value="{% csrf_token %}" />
+
     <!-- Start Footer Area -->
     <footer class="footer-area pt-70 pb-40">
       <div class="container">
         <div class="col-lg-6 col-sm-6 mx-auto">
           <div class="col-6 mx-auto">
-            <a href="index.html" class="logo">
+            {% if request.user.is_authenticated %}
+            <a href="/home" class="logo">
               <img src="{% static 'images/white-logo.png' %}" alt="Image" />
             </a>
+            {% else %}
+            <a href="/about" class="logo">
+              <img src="{% static 'images/white-logo.png' %}" alt="Image" />
+            </a>
+            {% endif %}
           </div>
           <ul class="social-icon">
             <li class="social-icon__item">
@@ -529,23 +403,34 @@
               </a>
             </li>
           </ul>
+          {% if request.user.is_authenticated %}
           <ul class="menu">
             <li class="menu__item">
-              <a class="menu__link" href="home_without_login.html">Home</a>
+              <a class="menu__link" href="/home">Home</a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="profile.html">Profile</a>
+              <a class="menu__link" href="/profile">Profile</a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="favorite_list.html">Favorite List</a>
+              <a class="menu__link" href="/favorite_list">Favorite List</a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="about.html">About Us</a>
+              <a class="menu__link" href="/about">About Us</a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="contact.html">Contact Us</a>
+              <a class="menu__link" href="/contact">Contact Us</a>
             </li>
           </ul>
+          {% else %}
+          <ul class="menu">
+            <li class="menu__item">
+              <a class="menu__link" href="/about">About Us</a>
+            </li>
+            <li class="menu__item">
+              <a class="menu__link" href="/contact">Contact Us</a>
+            </li>
+          </ul>
+          {% endif %}
         </div>
       </div>
       <div class="shape footer-shape-1">
@@ -556,12 +441,14 @@
       </div>
     </footer>
     <!-- End Footer Area -->
+
     <!-- Start Go Top Area -->
     <div class="go-top">
       <i class="ri-arrow-up-s-fill"></i>
       <i class="ri-arrow-up-s-fill"></i>
     </div>
     <!-- End Go Top Area -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Jquery Min JS -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <!-- Bootstrap Bundle Min JS -->
@@ -590,5 +477,73 @@
     <script src="{% static 'js/ajaxchimp.min.js' %}"></script>
     <!-- Custom JS -->
     <script src="{% static 'js/custom.js' %}"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the form element
+        const form = document.getElementById("contactForm");
+
+        // Add event listener for form submission
+        form.addEventListener("submit", function (event) {
+          // Prevent default form submission
+          event.preventDefault();
+
+          // Get the CSRF token from the hidden input field
+          const csrfToken = document.getElementById("csrf_token").value;
+
+          // Submit the form via AJAX
+          fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: {
+              "X-CSRFToken": csrfToken,
+            },
+          })
+            .then((response) => {
+              // Handle response status
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              // Handle response data
+              if (data.success) {
+                // Registration successful
+                Swal.fire({
+                  icon: "success",
+                  title: "Success!",
+                  text: "You have successfully sent your message!",
+                  confirmButtonColor: "#3085d6",
+                  confirmButtonText: "OK",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = "/about"; // Redirect to profile page
+                  }
+                });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Send message Failed",
+                  html: errors.trim(),
+                  confirmButtonColor: "#d33",
+                  confirmButtonText: "OK",
+                });
+              }
+            })
+            .catch((error) => {
+              // Handle errors
+              console.error("Error:", error);
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong! Please try again later.",
+                confirmButtonColor: "#d33",
+                confirmButtonText: "OK",
+              });
+            });
+        });
+      });
+    </script>
   </body>
 </html>

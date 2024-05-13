@@ -4,6 +4,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import get_template
 
 # Register page
 # This function handles user registration
@@ -94,3 +97,38 @@ def update_password(request):
     else:
         form = UpdatePasswordForm(user)  
     return render(request, "update_password.html", {'form':form})
+
+# Contact us page 
+# This function renders contact us page that allows users to send email to us
+def contact_view(request):
+    if request.method == 'POST':
+        message = request.POST.get('message', '')
+        name = request.POST.get('name', '')
+        msg_subject = request.POST.get('msg_subject', '')
+        email = request.POST.get('email', '')
+        phone_number = request.POST.get('phone_number', '')
+
+        if message and name and msg_subject and email:
+            try:
+                email_template = get_template('contact_us_email.html')
+                context = {
+                    'name': name,
+                    'email': email,
+                    'subject': msg_subject,
+                    'phone_number': phone_number,
+                    'message': message
+                }
+                send_mail(
+                    msg_subject,
+                    message,
+                    email,
+                    settings.RECEIVERS_EMAILS,
+                    fail_silently=False,
+                    html_message=email_template.render(context)
+                )
+                return JsonResponse({'success': True})  # Return success response
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)})  # Return error response
+        else:
+            return JsonResponse({'success': False, 'error': 'All fields are required.'})
+    return render(request, 'contact.html')
