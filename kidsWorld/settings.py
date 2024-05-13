@@ -246,3 +246,11 @@ JAZZMIN_SETTINGS = {
     # override change forms on a per modeladmin basis
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
 }
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'r.farhoud2000@gmail.com'
+EMAIL_HOST_PASSWORD = 'xmwx zkig apkv sqwg'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+RECEIVERS_EMAILS = ['r.farhoud2000@gmail.com', 'sajedaabuayyash8@gmail.com']
