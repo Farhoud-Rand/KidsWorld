@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Story(models.Model):
     CATEGORIES = [
         ('Adventure', 'Adventure'),
@@ -10,11 +9,9 @@ class Story(models.Model):
         ('Science', 'Science')
     ]
     AGE_LIMIT = [
-        ('2', '2'),
-        ('4', '4'),
-        ('6', '6'),
-        ('8', '8'),
-        ('10', '10')
+        ('2-5', '2-5'),
+        ('6-8', '6-8'),
+        ('10-12', '10-12')
     ]          
     title = models.CharField(max_length= 255)
     genre = models.CharField(choices=CATEGORIES, max_length= 255)

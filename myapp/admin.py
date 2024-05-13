@@ -14,11 +14,5 @@ class StoryAdmin(admin.ModelAdmin):
 # Register your Story model with custom StoryAdmin
 admin.site.register(Story, StoryAdmin)
 
-# Optionally, if you want to customize the User model admin
-admin.site.unregister(User)
+# Unregister Group model
 admin.site.unregister(Group)
-
-@admin.register(User)
-class CustomUserAdmin(UserAdmin):
-    pass
-

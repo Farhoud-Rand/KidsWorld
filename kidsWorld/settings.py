@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'myapp',
     'jazzmin',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+CRISPY_TEMPLATE_PACK = "bootstrap5" 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -136,13 +140,14 @@ JAZZMIN_SETTINGS = {
     "site_brand": "KidsWorld",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    "login_logo": None,
+    "login_logo": "images/logo.png",
 
     # Logo to use for login form in dark themes (defaults to login_logo)
     "login_logo_dark": None,
 
     # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
-    "site_icon": "img/logo.png",
+    "site_icon": "images/favicon.png",
+    "site_logo": "images/favicon.png",
 
     # Welcome text on the login screen
     "welcome_sign": "Welcome to the KidsWorld",
