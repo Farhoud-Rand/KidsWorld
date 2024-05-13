@@ -83,18 +83,17 @@ Partnership :
 
 Rand Farhoud 
 ---
-https://github.com/Farhoud-Rand/KidsWorld/tree/Rand
+https://github.com/Farhoud-Rand
 ---
 
 Sajeda Abu Ayyash
 ---
-https://github.com/Farhoud-Rand/KidsWorld/commits?author=SajedaAbu-Ayyash
+https://github.com/SajedaAbu-Ayyash
 ---
 
 Ziad Disi
 ---
-
-https://github.com/Farhoud-Rand/KidsWorld/commits/Ziad
+https://github.com/ziaddisi
 ---
 
 
