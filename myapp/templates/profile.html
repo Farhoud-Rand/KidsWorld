@@ -5,6 +5,7 @@
 		<!-- Required meta tags -->
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
 		<!-- Bootstrap Min CSS -->
 		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
 		<!-- Owl Theme Default Min CSS -->
@@ -49,9 +50,9 @@
 						<div class="col-lg-6 col-md-6">
 							<ul class="header-left-content">
 								<li>
-									<a href="mailto:info@kidsWorld.com">
+									<a href="mailto:k16735848@gmail.com">
 									<i class="ri-mail-open-fill"></i>
-									info@kidsWorld.com
+									k16735848@gmail.com
 									</a>
 								</li>
 							</ul>
@@ -94,7 +95,7 @@
 				<div class="desktop-nav">
 					<div class="container">
 						<nav class="navbar navbar-expand-md navbar-light">
-							<a class="navbar-brand" href="home_with_login.html">
+							<a class="navbar-brand" href="/home">
 							<img src="{% static 'images/logo.png' %}" alt="logo" />
 							</a>
 							<div
@@ -103,7 +104,7 @@
 								>
 								<ul class="navbar-nav">
 									<li class="nav-item">
-										<a href="home_with_login.html" class="nav-link">
+										<a href="/home" class="nav-link">
 											<!-- Also we can use : "galleries.html" -->
 											Home
 										</a>
@@ -112,15 +113,15 @@
 										<a href="/profile" class="nav-link active"> Profile </a>
 									</li>
 									<li class="nav-item">
-										<a href="favorite_list.html" class="nav-link">
+										<a href="/favorite_list" class="nav-link">
 										Favorite List
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="about.html" class="nav-link"> About us </a>
+										<a href="/about" class="nav-link"> About us </a>
 									</li>
 									<li class="nav-item">
-										<a href="contact.html" class="nav-link"> Contact us </a>
+										<a href="/contact" class="nav-link"> Contact us </a>
 									</li>
 								</ul>
 							</div>
@@ -149,7 +150,7 @@
 					<h2>Profile</h2>
 					<ul>
 						<li>
-							<a href="index.html"> Home </a>
+							<a href="/home"> Home </a>
 						</li>
 						<li class="active">profile</li>
 					</ul>
@@ -187,12 +188,13 @@
 			</div>
 		</section>
 		<!-- End User Area -->
+		<input type="hidden" id="csrf_token" value="{% csrf_token %}"> 
 		<!-- Start Footer Area -->
 		<footer class="footer-area pt-70 pb-40">
 			<div class="container">
 				<div class="col-lg-6 col-sm-6 mx-auto">
 					<div class="col-6 mx-auto">
-						<a href="index.html" class="logo">
+						<a href="/home" class="logo">
 						<img src="{% static 'images/white-logo.png' %}" alt="Image" />
 						</a>
 					</div>
@@ -236,19 +238,19 @@
 					</ul>
 					<ul class="menu">
 						<li class="menu__item">
-							<a class="menu__link" href="home_without_login.html">Home</a>
+							<a class="menu__link" href="/home">Home</a>
 						</li>
 						<li class="menu__item">
-							<a class="menu__link" href="profile.html">Profile</a>
+							<a class="menu__link" href="/profile">Profile</a>
 						</li>
 						<li class="menu__item">
-							<a class="menu__link" href="favorite_list.html">Favorite List</a>
+							<a class="menu__link" href="/favorite_list">Favorite List</a>
 						</li>
 						<li class="menu__item">
-							<a class="menu__link" href="about.html">About Us</a>
+							<a class="menu__link" href="/about">About Us</a>
 						</li>
 						<li class="menu__item">
-							<a class="menu__link" href="contact.html">Contact Us</a>
+							<a class="menu__link" href="/contact">Contact Us</a>
 						</li>
 					</ul>
 				</div>
@@ -261,13 +263,13 @@
 			</div>
 		</footer>
 		<!-- End Footer Area -->
-		<input type="hidden" id="csrf_token" value="{% csrf_token %}"> 
 		<!-- Start Go Top Area -->
 		<div class="go-top">
 			<i class="ri-arrow-up-s-fill"></i>
 			<i class="ri-arrow-up-s-fill"></i>
 		</div>
 		<!-- End Go Top Area -->
+		
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<!-- Jquery Min JS -->
 		<script src="{% static 'js/jquery.min.js' %}"></script>
@@ -298,6 +300,6 @@
 		<!-- Custom JS -->
 		<script src="{% static 'js/custom.js' %}"></script>
 		<!-- My js -->
-		<script src="{% static 'js/profile.js' %}"></script> 
+		<script src="{% static 'js/profile.js' %}"></script>
 	</body>
 </html>
