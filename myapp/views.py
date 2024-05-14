@@ -8,6 +8,12 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import get_template
 
+
+# About us page 
+# This function renders about us page 
+def about_view(request):
+    return render(request,"about.html")
+
 # Register page
 # This function handles user registration
 def register_view(request):
