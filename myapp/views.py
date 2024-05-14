@@ -41,7 +41,6 @@ def login_view(request):
         return JsonResponse({'success': False}, status=400)
     else:
         form = UserLoginForm()
-    
     return render(request, 'login.html', {'form': form})
 
 # Logout page
