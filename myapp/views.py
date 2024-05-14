@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegisterForm, UserLoginForm, UpdatePasswordForm, UpdateProfileForm
+from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.contrib import messages
@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import get_template
+from . import models
 
 
 # About us page 
@@ -144,3 +145,32 @@ def contact_view(request):
 def favorite_list(request):
     favorite_stories = request.user.favorite_stories.all()
     return render(request, 'favorite_list.html', {'favorite_stories': favorite_stories})
+
+# this function to render to story_details page
+def story_details(request, story_id):
+    story = models.Story.objects.get(id = story_id)
+    if request.method == 'POST':
+        form = StoryCommentForm(request.POST)
+        if form.is_valid():
+            form.instance.user_who_comment = request.user
+            form.instance.story = models.get_story_by_id(story_id)
+            form.save()     
+            return JsonResponse({'success': True})  
+            
+        else:
+            errors = {field: [error for error in errors] for field, errors in form.errors.items()}
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
+    else:
+        form = StoryCommentForm()  
+    return render(request, 'story_details.html', {'story': story, 'form':form})
+
+# Delete a comment 
+def delete_comment(request):
+    if request.session['login'] == True:
+        if (request.method == 'POST'):
+            models.delete_comment(request.POST)
+            id = request.POST['id']
+            return redirect("/story/"+id)
+    else: 
+        # Else render a template containing the SweetAlert message and go back to root route
+        return render(request, "story_details.html")

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Story
+from .models import *
 from django.contrib.auth.forms import UserCreationForm, SetPasswordForm, UserChangeForm
 from django.contrib.auth.models import User
 
@@ -79,3 +79,19 @@ class UpdatePasswordForm(SetPasswordForm):
         # Override widget attributes for form fields
         self.fields['new_password1'].widget = forms.PasswordInput(attrs={'class': 'form-control p-2', 'placeholder': 'Password'})
         self.fields['new_password2'].widget = forms.PasswordInput(attrs={'class': 'form-control p-2', 'placeholder': 'Confirm Password'})
+
+# Form to add comment
+class StoryCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment_content']
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+        comment_content = cleaned_data.get('comment_content')
+
+        if comment_content and len(comment_content) < 5:
+            self.add_error('comment_content', "Your comment should be at least 5 characters")
+        return cleaned_data   
+        
