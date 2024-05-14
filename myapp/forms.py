@@ -30,9 +30,8 @@ class UserRegisterForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             self.add_error('email', "This email is already registered")
 
-        if len(username) < 2:
+        if  username and len(username) < 2:
             self.add_error('username', "Username should be at least 2 characters")
-
         return cleaned_data
     
     # Hash the password before save it

@@ -48,9 +48,9 @@
                         <div class="col-lg-6 col-md-6">
                             <ul class="header-left-content">
                                 <li>
-                                    <a href="mailto:info@kidsWorld.com">
+                                    <a href="mailto:k16735848@gmail.com">
                                     <i class="ri-mail-open-fill"></i>
-                                    info@kidsWorld.com
+                                    k16735848@gmail.com
                                     </a>
                                 </li>
                             </ul>
@@ -65,9 +65,15 @@
                     <div class="container">
                         <div class="mobile-responsive-menu">
                             <div class="logo">
-                                <a href="index.html">
+                                {% if request.user.is_authenticated %}
+                                <a href="/home">
                                 <img src="{% static 'images/logo.png' %}" alt="logo" />
                                 </a>
+                                {% else %}
+                                <a href="/about">
+                                    <img src="{% static 'images/logo.png' %}" alt="logo" />
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -75,23 +81,36 @@
                 <div class="desktop-nav">
                     <div class="container">
                         <nav class="navbar navbar-expand-md navbar-light">
-                            <a class="navbar-brand" href="home_with_login.html">
-                            <img src="{% static 'images/logo.png' %}" alt="logo" />
+                            <a class="navbar-brand" href="/about">
+                              <img src="{% static 'images/logo.png' %}" alt="logo" />
                             </a>
+                
                             <div
-                                class="collapse navbar-collapse mean-menu"
-                                id="navbarSupportedContent"
-                                >
-                                <ul class="navbar-nav">
-                                    <li class="nav-item">
-                                        <a href="about.html" class="nav-link"> About us </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="contact.html" class="nav-link"> Contact us </a>
-                                    </li>
-                                </ul>
+                              class="collapse navbar-collapse mean-menu"
+                              id="navbarSupportedContent"
+                            >
+                            
+                              <ul class="navbar-nav">
+                                <li class="nav-item">
+                                  <a href="/register" class="nav-link active">
+                                    Register
+                                  </a>
+                                </li>
+                
+                                <li class="nav-item">
+                                  <a href="/login" class="nav-link"> Login </a>
+                                </li>
+                
+                                <li class="nav-item">
+                                  <a href="/about" class="nav-link "> About us </a>
+                                </li>
+                
+                                <li class="nav-item">
+                                  <a href="/contact" class="nav-link"> Contact us </a>
+                                </li>
+                              </ul>
                             </div>
-                        </nav>
+                          </nav>
                     </div>
                 </div>
             </div>
@@ -130,76 +149,105 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12">
+                          <p class="create">Already have an account? <a href="/login">Log in</a></p>
+                        </div>
                     </form>
                 </div>
             </div>
         </section>
         <!-- End User Area -->
-        <!-- Start Footer Area -->
-        <footer class="footer-area pt-70 pb-40">
-            <div class="container">
-                <div class="col-lg-6 col-sm-6 mx-auto">
-                    <div class="col-6 mx-auto">
-                        <a href="index.html" class="logo">
-                        <img src="{% static 'images/white-logo.png'%}" alt="Image" />
-                        </a>
-                    </div>
-                    <ul class="social-icon">
-                        <li class="social-icon__item">
-                            <a
-                                class="social-icon__link"
-                                href="https://www.facebook.com/"
-                                target="_blank"
-                                >
-                                <ion-icon name="logo-facebook"></ion-icon>
-                            </a>
-                        </li>
-                        <li class="social-icon__item">
-                            <a
-                                class="social-icon__link"
-                                href="https://twitter.com/"
-                                target="_blank"
-                                >
-                                <ion-icon name="logo-twitter"></ion-icon>
-                            </a>
-                        </li>
-                        <li class="social-icon__item">
-                            <a
-                                class="social-icon__link"
-                                href="https://twitter.com/"
-                                target="_blank"
-                                >
-                                <ion-icon name="logo-linkedin"></ion-icon>
-                            </a>
-                        </li>
-                        <li class="social-icon__item">
-                            <a
-                                class="social-icon__link"
-                                href="https://www.instagram.com/"
-                                target="_blank"
-                                >
-                                <ion-icon name="logo-instagram"></ion-icon>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="menu">
-                        <li class="menu__item">
-                            <a class="menu__link" href="about.html">About Us</a>
-                        </li>
-                        <li class="menu__item">
-                            <a class="menu__link" href="contact.html">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Start Footer Area -->
+    <footer class="footer-area pt-70 pb-40">
+        <div class="container">
+          <div class="col-lg-6 col-sm-6 mx-auto">
+            <div class="col-6 mx-auto">
+              {% if request.user.is_authenticated %}
+              <a href="/home" class="logo">
+                <img src="{% static 'images/white-logo.png' %}" alt="Image" />
+              </a>
+              {% else %}
+              <a href="/about" class="logo">
+                <img src="{% static 'images/white-logo.png' %}" alt="Image" />
+              </a>
+              {% endif %}
             </div>
-            <div class="shape footer-shape-1">
-                <img src="{% static 'images/footer-shape-1.png' %}" alt="Image" />
-            </div>
-            <div class="shape footer-shape-2">
-                <img src="{% static 'images/footer-shape-2.png' %}" alt="Image" />
-            </div>
-        </footer>
-        <!-- End Footer Area -->
+            <ul class="social-icon">
+              <li class="social-icon__item">
+                <a
+                  class="social-icon__link"
+                  href="https://www.facebook.com/"
+                  target="_blank"
+                >
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+              </li>
+              <li class="social-icon__item">
+                <a
+                  class="social-icon__link"
+                  href="https://twitter.com/"
+                  target="_blank"
+                >
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+              </li>
+              <li class="social-icon__item">
+                <a
+                  class="social-icon__link"
+                  href="https://twitter.com/"
+                  target="_blank"
+                >
+                  <ion-icon name="logo-linkedin"></ion-icon>
+                </a>
+              </li>
+              <li class="social-icon__item">
+                <a
+                  class="social-icon__link"
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                >
+                  <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+              </li>
+            </ul>
+            {% if request.user.is_authenticated %}
+            <ul class="menu">
+              <li class="menu__item">
+                <a class="menu__link" href="/home">Home</a>
+              </li>
+              <li class="menu__item">
+                <a class="menu__link" href="/profile">Profile</a>
+              </li>
+              <li class="menu__item">
+                <a class="menu__link" href="/favorite_list">Favorite List</a>
+              </li>
+              <li class="menu__item">
+                <a class="menu__link" href="/about">About Us</a>
+              </li>
+              <li class="menu__item">
+                <a class="menu__link" href="/contact">Contact Us</a>
+              </li>
+            </ul>
+            {% else %}
+            <ul class="menu">
+              <li class="menu__item">
+                <a class="menu__link" href="/about">About Us</a>
+              </li>
+              <li class="menu__item">
+                <a class="menu__link" href="/contact">Contact Us</a>
+              </li>
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+        <div class="shape footer-shape-1">
+          <img src="{% static 'images/footer-shape-1.png' %}" alt="Image" />
+        </div>
+        <div class="shape footer-shape-2">
+          <img src="{% static 'images/footer-shape-2.png' %}" alt="Image" />
+        </div>
+      </footer>
+      <!-- End Footer Area -->
         <!-- Start Go Top Area -->
         <div class="go-top">
             <i class="ri-arrow-up-s-fill"></i>
