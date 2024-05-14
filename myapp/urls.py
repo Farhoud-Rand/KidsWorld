@@ -12,5 +12,7 @@ urlpatterns = [
     path('update_password', views.update_password, name='update_password'),
     path('contact',views.contact_view, name='contact'),
     path('favorite_list',views.favorite_list, name='favorite_list'),
+    path('story/<int:story_id>', views.story_details, name='story_details'),
+    path('delete_comment', views.delete_comment, name='delete_comment')
 
 ]

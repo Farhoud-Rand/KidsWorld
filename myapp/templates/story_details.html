@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %} 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -73,25 +74,9 @@
                       My account
                       <i class="ri-arrow-down-s-line"></i>
                     </a>
-
                     <ul class="my-account-link">
                       <li>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="modal"
-                          data-bs-target="#staticBackdrop"
-                        >
-                          Log In
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="modal"
-                          data-bs-target="#staticBackdrop-2"
-                        >
-                          Register
-                        </a>
+                        <a href="/logout"> Log Out </a>
                       </li>
                     </ul>
                   </li>
@@ -104,13 +89,12 @@
       <!-- Start Top Header -->
 
       <!-- Start Navbar Area -->
-       <!-- Start Navbar Area -->
 	   <div class="navbar-area">
         <div class="mobile-responsive-nav">
           <div class="container">
             <div class="mobile-responsive-menu">
               <div class="logo">
-                <a href="index.html">
+                <a href="/home">
                   <img src="{% static 'images/logo.png' %}" alt="logo" />
                 </a>
               </div>
@@ -121,7 +105,7 @@
         <div class="desktop-nav">
           <div class="container">
             <nav class="navbar navbar-expand-md navbar-light">
-              <a class="navbar-brand" href="index.html">
+              <a class="navbar-brand" href="/home">
                 <img src="{% static 'images/logo.png' %}" alt="logo" />
               </a>
 
@@ -131,189 +115,31 @@
               >
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a href="home_with_login.html" class="nav-link">
-                      <!-- Also we can use : "galleries.html" -->
+                    <a href="/home" class="nav-link">
                       Home
                     </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="profile.html" class="nav-link"> Profile </a>
+                    <a href="/profile" class="nav-link"> Profile </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="favorite_list.html" class="nav-link">
+                    <a href="/favorite_list" class="nav-link">
                       Favorite List
                     </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="about.html" class="nav-link"> About us </a>
+                    <a href="/about" class="nav-link"> About us </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="contact.html" class="nav-link"> Contact us </a>
+                    <a href="/contact" class="nav-link"> Contact us </a>
                   </li>
       <!-- End Navbar Area -->
     </header>
     <!-- End Header Area -->
-
-    <!-- Start Log In Modal -->
-	<div
-	class="modal fade"
-	id="staticBackdrop"
-	data-bs-backdrop="static"
-	data-bs-keyboard="false"
-	aria-hidden="true"
-  >
-	<div class="modal-dialog modal-dialog-centered">
-	  <div class="modal-content">
-		<button
-		  type="button"
-		  class="close"
-		  data-bs-dismiss="modal"
-		  aria-label="Close"
-		>
-		  <i class="ri-close-circle-line"></i>
-		</button>
-
-		<div class="modal-body">
-		  <div class="container">
-			<div class="account-title">
-			  <h2>Log in to your account</h2>
-			</div>
-
-			<div class="contact-form-action">
-			  <form method="post">
-				<div class="row">
-				  <div class="col-12">
-					<div class="form-group">
-					  <label>Username</label>
-					  <input class="form-control" type="text" name="name" />
-					</div>
-				  </div>
-
-				  <div class="col-12">
-					<div class="form-group">
-					  <label>Password</label>
-					  <input
-						class="form-control"
-						type="password"
-						name="password"
-					  />
-					</div>
-				  </div>
-
-				  <div class="col-12">
-					<div class="login-action">
-					  <span class="log-rem">
-						<input id="remember" type="checkbox" />
-						<label for="remember">Remember me!</label>
-					  </span>
-
-					  <span class="forgot-login">
-						<a href="recover-password.html"
-						  >Forgot your password?</a
-						>
-					  </span>
-					</div>
-				  </div>
-
-				  <div class="col-12">
-					<button class="default-btn" type="submit">Log In</button>
-				  </div>
-				</div>
-			  </form>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
-  <!-- End Log In Modal -->
-
-  <!-- Start Register Modal -->
-  <div
-	class="modal fade"
-	id="staticBackdrop-2"
-	data-bs-backdrop="static"
-	data-bs-keyboard="false"
-	aria-hidden="true"
-  >
-	<div class="modal-dialog modal-dialog-centered">
-	  <div class="modal-content">
-		<button
-		  type="button"
-		  class="close"
-		  data-bs-dismiss="modal"
-		  aria-label="Close"
-		>
-		  <i class="ri-close-circle-line"></i>
-		</button>
-
-		<div class="modal-body">
-		  <div class="container">
-			<div class="account-title">
-			  <h2>Register your account</h2>
-			</div>
-
-			<div class="contact-form-action">
-			  <form method="post">
-				<div class="row">
-				  <div class="col-12">
-					<div class="form-group">
-					  <label>Full name</label>
-					  <input class="form-control" type="text" name="name" />
-					</div>
-				  </div>
-
-				  <div class="col-12">
-					<div class="form-group">
-					  <label>Email address</label>
-					  <input class="form-control" type="email" name="email" />
-					</div>
-				  </div>
-
-				  <div class="col-12">
-					<div class="form-group">
-					  <label>Password</label>
-					  <input
-						class="form-control"
-						type="password"
-						name="password"
-					  />
-					</div>
-				  </div>
-
-				  <div class="col-12">
-					<div class="form-group">
-					  <label>Confirm Password</label>
-					  <input
-						class="form-control"
-						type="password"
-						name="password"
-					  />
-					</div>
-				  </div>
-
-				  <div class="col-lg-12">
-					<div class="row align-items-center">
-					  <div class="col-12">
-						<button class="default-btn" type="submit">
-						  Register Now
-						</button>
-					  </div>
-					</div>
-				  </div>
-				</div>
-			  </form>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
-    <!-- End Register Modal -->
 
     <!-- Start Page Title Area -->
     <div class="page-title-area bg-2">
@@ -323,7 +149,7 @@
 
           <ul>
             <li>
-              <a href="index.html"> Home </a>
+              <a href="/home"> Home </a>
             </li>
 
             <li class="active">Story Details</li>
@@ -339,55 +165,74 @@
     <section class="local-councils-services-area pb-70 mt-5">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6">
-            <div class="local-councils-content pr-15">
-              <!-- <span class="top-title">Title</span> -->
-              <h2 class="text-success">
-                Title
-              </h2>
-              <h3>Story's Information:</h3>
-              <ul>
-                <li>Genre: genre</li>
-                <li>Age Limit: age limit</li>
-				<li>Created at: created at</li>
-              </ul>
-
-              <a href="services.html" class="default-btn"> Read Story </a>
-            </div>
-			<!-- start Rating -->
-			<div class="stars" >
-				<i class="far fa-star" data-rating="1"></i>
-				<i class="far fa-star" data-rating="2"></i>
-				<i class="far fa-star" data-rating="3"></i>
-				<i class="far fa-star" data-rating="4"></i>
-				<i class="far fa-star" data-rating="5"></i>
-			</div>
-			<!-- End rating -->
-          </div>
-
-          <div class="col-lg-6">
-            <div class="local-councils-img pl-15">
-              <img src="{% static 'images/local-councils-img.jpg' %}" alt="Image" />
-            </div>
-          </div>
+          <div class=" col-lg-11 row mx-auto">
+            <div class="col-lg-6">
+              <div class="local-councils-content pr-15">
+                <h2 class="text-success">
+                  {{ story.title }}
+                </h2>
+                <h3>Story's Information:</h3>
+                <ul>
+                  <li>Genre: {{ story.genre }}</li>
+                  <li>Age Limit: {{ story.age_limit }}</li>
+                  <li>Created at: {{ story.created_at }}</li>
+                </ul>
+                <a href="{{ story.file.url }}" type="application/vnd.oasis.opendocument.text" class="default-btn"> Read Story </a>
+                <a href="{{ story.file.url }}" class="default-btn" download>Download Story</a> 
+              </div>
+        <!-- start Rating -->
+        <div class="stars" >
+          <i class="far fa-star" data-rating="1"></i>
+          <i class="far fa-star" data-rating="2"></i>
+          <i class="far fa-star" data-rating="3"></i>
+          <i class="far fa-star" data-rating="4"></i>
+          <i class="far fa-star" data-rating="5"></i>
         </div>
+        <!-- End rating -->
+            </div>
+  
+            <div class="col-lg-6">
+              <div class="local-councils-img pl-15">
+                <img src="{{ story.image.url }}" alt="Image" style="height: 300px; width: 500px;"/>
+              </div>
+            </div>
+          </div>
+          </div>
+          
       
 	  <!-- Start comments area -->
 	<div>
-		<h2 class="">Add Comment</h2>
+		<h3 class="col-lg-11  mx-auto">Add Comment</h3>
 		<div class="col-8 mx-auto">
-			<div class="form-group">
-				<label>Write your comment here:</label>
-				<textarea name="message" class="form-control" id="message" cols="30" rows="4" required data-error="Write your message"></textarea>
-				<div class="help-block with-errors"></div>
-			</div>
-		</div>
-		<div class="col-lg-10 col-md-12 text-end mt-2 mb-4">
-			<button type="submit" class="default-btn">
-					Add Comment
-			</button>
-			<div id="msgSubmit" class="h3 text-center hidden"></div>
-			<div class="clearfix"></div>
+      <form id="comment-form" class="user-form" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="col-lg-12">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <button type="submit" id="comment" class="default-btn">Add Comment</button>
+                </div>
+            </div>
+        </div>
+    </form>
+      <div>
+        <h3>Story Comments:</h3>
+        <ul>
+          {% for comment in comments %}
+          <li>
+            <p>{{ comment.user.name }} at {{ comment.created_at }}: {{ comment.comment_content }}</p>
+          {% if user.id == comment.user.id %}
+          <form action="/delete_comment" method="post" class="col-3">
+          {% csrf_token %}
+          <input type="hidden" name="id" id="" value="{{ story.id }}">
+          <input type="hidden" name="comment_id" id="" value="{{ comment.id }}">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          {% endif %}
+        </li>
+        {% endfor %}
+        </ul>
+      </div>
 		</div>
 	</div>
 </div>
@@ -396,16 +241,12 @@
     <!-- End story description area -->
 
 	
-            
-
-              
-
       <!-- Start Footer Area -->
       <footer class="footer-area pt-70 pb-40">
 		<div class="container">
 		   <div class="col-lg-6 col-sm-6 mx-auto">
 			  <div class="col-6 mx-auto">
-				 <a href="index.html" class="logo">
+				 <a href="/home" class="logo">
 				 <img src="{% static 'images/white-logo.png' %}" alt="Image">
 				 </a>
 			  </div>
@@ -432,11 +273,11 @@
 				 </li>
 			  </ul>
 			  <ul class="menu">
-				 <li class="menu__item"><a class="menu__link" href="home_without_login.html">Home</a></li>
-				 <li class="menu__item"><a class="menu__link" href="profile.html">Profile</a></li>
-				 <li class="menu__item"><a class="menu__link" href="favorite_list.html">Favorite List</a></li>
-				 <li class="menu__item"><a class="menu__link" href="about.html">About Us</a></li>
-				 <li class="menu__item"><a class="menu__link" href="contact.html">Contact Us</a></li>
+				 <li class="menu__item"><a class="menu__link" href="/home">Home</a></li>
+				 <li class="menu__item"><a class="menu__link" href="/profile">Profile</a></li>
+				 <li class="menu__item"><a class="menu__link" href="/favorite_list">Favorite List</a></li>
+				 <li class="menu__item"><a class="menu__link" href="/about">About Us</a></li>
+				 <li class="menu__item"><a class="menu__link" href="/contact">Contact Us</a></li>
 			  </ul>
 		   </div>
 		</div>
@@ -449,8 +290,6 @@
 	 </footer>
 	 <!-- End Footer Area -->
 
-   
-
     <!-- Start Go Top Area -->
     <div class="go-top">
       <i class="ri-arrow-up-s-fill"></i>
@@ -458,6 +297,10 @@
     </div>
     <!-- End Go Top Area -->
 
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- the PDF.js library -->
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <!-- Jquery Min JS -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <!-- Bootstrap Bundle Min JS -->
