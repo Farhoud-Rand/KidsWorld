@@ -41,7 +41,6 @@ def login_view(request):
         return JsonResponse({'success': False}, status=400)
     else:
         form = UserLoginForm()
-    
     return render(request, 'login.html', {'form': form})
 
 # Logout page
@@ -132,3 +131,10 @@ def contact_view(request):
         else:
             return JsonResponse({'success': False, 'error': 'All fields are required.'})
     return render(request, 'contact.html')
+
+# Favorite list page
+# This function renders favorite list page that allows users to remove stories from list and to show these stories
+@login_required(login_url='/not_login')
+def favorite_list(request):
+    favorite_stories = request.user.favorite_stories.all()
+    return render(request, 'favorite_list.html', {'favorite_stories': favorite_stories})

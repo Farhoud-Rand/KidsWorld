@@ -76,7 +76,7 @@
                     <ul class="my-account-link">
                       <!-- Need to change -->
                       <li>
-                        <a href="#"> Log Out </a>
+                        <a href="/logout"> Log Out </a>
                       </li>
                     </ul>
                   </li>
@@ -93,7 +93,7 @@
           <div class="container">
             <div class="mobile-responsive-menu">
               <div class="logo">
-                <a href="index.html">
+                <a href="/home">
                   <img src="{% static 'images/logo.png' %}" alt="logo" />
                 </a>
               </div>
@@ -103,7 +103,7 @@
         <div class="desktop-nav">
           <div class="container">
             <nav class="navbar navbar-expand-md navbar-light">
-              <a class="navbar-brand" href="home_with_login.html">
+              <a class="navbar-brand" href="/home">
                 <img src="{% static 'images/logo.png' %}" alt="logo" />
               </a>
               <div
@@ -112,24 +112,24 @@
               >
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a href="home_with_login.html" class="nav-link">
+                    <a href="/home" class="nav-link">
                       <!-- Also we can use : "galleries.html" -->
                       Home
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="profile.html" class="nav-link"> Profile </a>
+                    <a href="/profile" class="nav-link"> Profile </a>
                   </li>
                   <li class="nav-item">
-                    <a href="favorite_list.html" class="nav-link active">
+                    <a href="/favorite_list" class="nav-link active">
                       Favorite List
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="about.html" class="nav-link"> About us </a>
+                    <a href="/about" class="nav-link"> About us </a>
                   </li>
                   <li class="nav-item">
-                    <a href="contact.html" class="nav-link"> Contact us </a>
+                    <a href="/contact" class="nav-link"> Contact us </a>
                   </li>
                 </ul>
               </div>
@@ -158,7 +158,7 @@
           <h2>Favorite List</h2>
           <ul>
             <li>
-              <a href="index.html"> Home </a>
+              <a href="/home"> Home </a>
             </li>
             <li class="active">Favorite List</li>
           </ul>
@@ -172,144 +172,41 @@
         <div class="section-title">
           <h2>Your Favorite List</h2>
         </div>
-        <div class="row justify-content-center">
-          <div class="col-lg-4 col-md-6">
-            <div class="single-event-box">
-              <span style="position: relative; display: inline-block">
-                <img
-                  src="{% static 'images/events/event-2.jpg' %}"
-                  alt="Images"
-                />
-                <i class="ri-heart-fill heart_Icon"></i>
-              </span>
-              <div class="event-content">
-                <h3>
-                  <a href="event-details.html"> Goodnight Moon </a>
-                </h3>
-                <!-- Add this part for rating -->
-                <div class="rating text-warning"></div>
-                <a href="event-details.html" class="read-more">
-                  Read more
-                  <i class="ri-arrow-right-s-line"></i>
-                </a>
+        <div id="Container">
+          <div class="row">
+              {% for story in favorite_stories %}
+              <div class="col-lg-4 col-md-6 mix {{ story.genre|lower }}" data-id="{{ story.id }}"> 
+                  <div class="single-event-box">
+                      <form method="POST" action="{% url 'toggle_favorite' story.id %}">
+                          {% csrf_token %}
+                          <span style="position: relative; display: inline-block">
+                              <img src="{{ story.image.url }}" alt="Image" style="width: 550px; height: 300px;" />
+                              <!-- Use conditional to determine heart icon class -->
+                              <button type="submit" class="toggle-favorite" data-story-id="{{ story.id }}" data-liked="true">
+                                  <i class="ri-heart-fill heart_Icon"></i>
+                              </button>
+                          </span>
+                      </form>
+                      <div class="event-content">
+                          <h3>
+                              <a href="#">{{ story.title }}</a>
+                          </h3>
+                          <div class="rating text-warning" data-rate="{{ story.rate }}"></div>
+                          <a href="story/{{ story.id }}" class="read-more">
+                              Read more
+                              <i class="ri-arrow-right-s-line"></i>
+                          </a>
+                      </div>
+                  </div>
               </div>
-            </div>
+              {% endfor %}
           </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="single-event-box">
-              <span style="position: relative; display: inline-block">
-                <img
-                  src="{% static 'images/events/event-2.jpg' %}"
-                  alt="Images"
-                />
-                <i class="ri-heart-fill heart_Icon"></i>
-              </span>
-              <div class="event-content">
-                <h3>
-                  <a href="event-details.html"> Negotiation in government </a>
-                </h3>
-                <!-- Add this part for rating -->
-                <div class="rating text-warning"></div>
-                <a href="event-details.html" class="read-more">
-                  Read more
-                  <i class="ri-arrow-right-s-line"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="single-event-box">
-              <span style="position: relative; display: inline-block">
-                <img
-                  src="{% static 'images/events/event-2.jpg' %}"
-                  alt="Images"
-                />
-                <i class="ri-heart-fill heart_Icon"></i>
-              </span>
-              <div class="event-content">
-                <h3>
-                  <a href="event-details.html"> Annual health conference </a>
-                </h3>
-                <!-- Add this part for rating -->
-                <div class="rating text-warning"></div>
-                <a href="event-details.html" class="read-more">
-                  Read more
-                  <i class="ri-arrow-right-s-line"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="single-event-box">
-              <span style="position: relative; display: inline-block">
-                <img
-                  src="{% static 'images/events/event-2.jpg' %}"
-                  alt="Images"
-                />
-                <i class="ri-heart-fill heart_Icon"></i>
-              </span>
-              <div class="event-content">
-                <h3>
-                  <a href="event-details.html">
-                    Governance for commercial activity
-                  </a>
-                </h3>
-                <!-- Add this part for rating -->
-                <div class="rating text-warning"></div>
-                <a href="event-details.html" class="read-more">
-                  Read more
-                  <i class="ri-arrow-right-s-line"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="single-event-box">
-              <span style="position: relative; display: inline-block">
-                <img
-                  src="{% static 'images/events/event-2.jpg' %}"
-                  alt="Images"
-                />
-                <i class="ri-heart-fill heart_Icon"></i>
-              </span>
-              <div class="event-content">
-                <h3>
-                  <a href="event-details.html"> Annual fire conference </a>
-                </h3>
-                <!-- Add this part for rating -->
-                <div class="rating text-warning"></div>
-                <a href="event-details.html" class="read-more">
-                  Read more
-                  <i class="ri-arrow-right-s-line"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="single-event-box">
-              <span style="position: relative; display: inline-block">
-                <img
-                  src="{% static 'images/events/event-2.jpg' %}"
-                  alt="Images"
-                />
-                <i class="ri-heart-fill heart_Icon"></i>
-              </span>
-              <div class="event-content">
-                <h3>
-                  <a href="event-details.html">
-                    Commercial business planning
-                  </a>
-                </h3>
-                <!-- Add this part for rating -->
-                <div class="rating text-warning"></div>
-                <a href="event-details.html" class="read-more">
-                  Read more
-                  <i class="ri-arrow-right-s-line"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
+      </div>
+
+
+
+
+          <!-- <div class="col-12">
             <div class="pagination-area">
               <span class="page-numbers current" aria-current="page">1</span>
               <a href="events.html" class="page-numbers">2</a>
@@ -318,7 +215,7 @@
                 <i class="ri-arrow-right-line"></i>
               </a>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </section>
@@ -396,12 +293,42 @@
         <img src="{% static 'images/footer-shape-2.png' %}" alt="Image" />
       </div>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <!-- End Footer Area -->
     <!-- Start Go Top Area -->
     <div class="go-top">
       <i class="ri-arrow-up-s-fill"></i>
       <i class="ri-arrow-up-s-fill"></i>
     </div>
+    <script>
+      $('.toggle-favorite').on('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+    
+        var button = $(this);
+        var form = button.closest('form');
+        var storyId = button.data('story-id');
+        
+        $.ajax({
+            type: "POST",
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function(response) {
+                if (!response.liked) {
+                    // If the story is unliked, remove the card
+                    var cardToRemove = $('.mix[data-id="' + storyId + '"]').closest('.col-lg-4');
+                    cardToRemove.remove();
+                } else {
+                    // If the story is liked, update the heart icon
+                    button.find('i').toggleClass('ri-heart-line ri-heart-fill');
+                }
+            }
+        });
+    });
+    
+     
+  </script>
+  
     <!-- End Go Top Area -->
     <!-- Jquery Min JS -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
