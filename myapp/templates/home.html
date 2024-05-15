@@ -51,7 +51,7 @@
       </div>
     </div>
     <!-- End Preloader Area -->
- 
+
     <!-- Start Header Area -->
     <header class="header-area">
       <!-- Start Top Header -->
@@ -191,62 +191,70 @@
       <!-- End Navbar Area -->
     </header>
     <!-- End Header Area -->
-<!-- Start Hero Slider Area -->
-<section class="hero-slider-area">
-  <div class="hero-slider owl-theme owl-carousel" data-slider-id="1">
-    <!-- Loop through the last three stories -->
-    {% for story in last_three_stories %}
-    <div class="hero-slider-item">
-      <div class="d-table">
-        <div class="d-table-cell">
-          <div class="container-fluid">
-            <div class="row align-items-center">
-              <div class="col-lg-6">
-                <div class="hero-slider-content pr-15">
-                  <span class="top-title">{{ story.genre }}</span>
-                  <h1>{{ story.title }}</h1>
-                  <p>Age: {{ story.age_limit }} <br> Language: {{ story.language }}</p>
-                  <!-- Add more fields as needed -->
-                  <div class="slider-btn">
-                    <a href="#" class="default-btn">
-                      Learn more
-                    </a>
+    <!-- Start Hero Slider Area -->
+    <section class="hero-slider-area">
+      <div class="hero-slider owl-theme owl-carousel" data-slider-id="1">
+        <!-- Loop through the last three stories -->
+        {% for story in last_three_stories %}
+        <div class="hero-slider-item">
+          <div class="d-table">
+            <div class="d-table-cell">
+              <div class="container-fluid">
+                <div class="row align-items-center">
+                  <div class="col-lg-6">
+                    <div class="hero-slider-content pr-15">
+                      <span class="top-title">{{ story.genre }}</span>
+                      <h1>{{ story.title }}</h1>
+                      <p>
+                        Age: {{ story.age_limit }} <br />
+                        Language: {{ story.language }}
+                      </p>
+                      <!-- Add more fields as needed -->
+                      <div class="slider-btn">
+                        <a href="#" class="default-btn"> Learn more </a>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="col-lg-6">
-                <div class="slider-img pl-15">
-                  <!-- Use the image field of the story -->
-                  <img src="{{ story.image.url }}" alt="Image" style="width: 875px; height: 530px;"/>
+                  <div class="col-lg-6">
+                    <div class="slider-img pl-15">
+                      <!-- Use the image field of the story -->
+                      <img
+                        src="{{ story.image.url }}"
+                        alt="Image"
+                        style="width: 875px; height: 530px"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="slider-shape">
+            <img
+              src="{% static 'images/slider/slider-shape.png' %}"
+              alt="Image"
+            />
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Start Carousel Thumbs -->
+      <div class="thumbs-wrap">
+        <div class="owl-thumbs hero-slider-thumb" data-slider-id="1">
+          <!-- Add thumbs for each story -->
+          {% for story in last_three_stories %}
+          <div class="owl-thumb-item">
+            <span>{{ forloop.counter }}</span>
+          </div>
+          {% endfor %}
         </div>
       </div>
-
-      <div class="slider-shape">
-        <img src="{% static 'images/slider/slider-shape.png' %}" alt="Image" />
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-
-  <!-- Start Carousel Thumbs -->
-  <div class="thumbs-wrap">
-    <div class="owl-thumbs hero-slider-thumb" data-slider-id="1">
-      <!-- Add thumbs for each story -->
-      {% for story in last_three_stories %}
-      <div class="owl-thumb-item">
-        <span>{{ forloop.counter }}</span>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  <!-- End Carousel Thumbs -->
-</section>
-<!-- End Hero Slide Area -->
+      <!-- End Carousel Thumbs -->
+    </section>
+    <!-- End Hero Slide Area -->
 
     <!-- Start Gallery Area -->
     <div class="gallery-area pt-100 pb-70">
@@ -267,48 +275,66 @@
           </div>
         </div>
 
-
-        
         <div id="Container">
           <div class="row">
             {% for story in all_stories %}
             <div class="col-lg-4 col-md-6 mix {{ story.genre|lower }}">
-                <div class="single-event-box">
-                  <form method="POST" action="{% url 'toggle_favorite' story.id %}">
-                    {% csrf_token %}
-                    <span style="position: relative; display: inline-block">
-                      <img src="{{ story.image.url }}" alt="Image" style="width: 550px; height: 300px;" />
-                      <!-- Use conditional to determine heart icon class -->
-                      {% if request.user in story.users_who_like.all %}
-                          <button type="button" class="toggle-favorite" data-story-id="{{ story.id }}" data-liked="true">
-                              <i class="ri-heart-fill heart_Icon"></i>
-                          </button>
-                      {% else %}
-                          <button type="button" class="toggle-favorite" data-story-id="{{ story.id }}" data-liked="false">
-                              <i class="ri-heart-line heart_Icon"></i>
-                          </button>
-                      {% endif %}
+              <div class="single-event-box">
+                <form
+                  method="POST"
+                  action="{% url 'toggle_favorite' story.id %}"
+                >
+                  {% csrf_token %}
+                  <span style="position: relative; display: inline-block">
+                    <img
+                      src="{{ story.image.url }}"
+                      alt="Image"
+                      style="width: 550px; height: 300px"
+                    />
+                    <!-- Use conditional to determine heart icon class -->
+                    {% if request.user in story.users_who_like.all %}
+                    <button
+                      type="button"
+                      class="toggle-favorite"
+                      data-story-id="{{ story.id }}"
+                      data-liked="true"
+                    >
+                      <i class="ri-heart-fill heart_Icon"></i>
+                    </button>
+                    {% else %}
+                    <button
+                      type="button"
+                      class="toggle-favorite"
+                      data-story-id="{{ story.id }}"
+                      data-liked="false"
+                    >
+                      <i class="ri-heart-line heart_Icon"></i>
+                    </button>
+                    {% endif %}
                   </span>
                 </form>
-                    <div class="event-content">
-                        <h3>
-                            <a href="#">{{ story.title }}</a>
-                        </h3>
-                        <div class="rating text-warning" data-rate="{{ story.rate }}"></div>
-                        <a href="/about" class="read-more">
-                            Read more
-                            <i class="ri-arrow-right-s-line"></i>
-                        </a>
-                    </div>
+                <div class="event-content">
+                  <h3>
+                    <a href="#">{{ story.title }}</a>
+                  </h3>
+                  <div
+                    class="rating text-warning"
+                    data-rate="{{ story.rate }}"
+                  ></div>
+                  <a href="/story_details" class="read-more">
+                    Read more
+                    <i class="ri-arrow-right-s-line"></i>
+                  </a>
                 </div>
+              </div>
             </div>
-        {% endfor %}
-          </div>          
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
     <!-- End Gallery Area -->
-    <input type="hidden" id="csrf_token" value="{% csrf_token %}"> 
+    <input type="hidden" id="csrf_token" value="{% csrf_token %}" />
     <!-- Start Footer Area -->
     <footer class="footer-area pt-70 pb-40">
       <div class="container">
@@ -403,31 +429,35 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       // AJAX request to toggle favorite
-      $('.toggle-favorite').on('click', function() {
-          var button = $(this);
-          var storyId = button.data('story-id');
-          var liked = button.data('liked');
-          
-          $.ajax({
-              type: "POST",
-              url: "{% url 'toggle_favorite' 0 %}".replace('0', storyId),
-              data: {
-                  'csrfmiddlewaretoken': '{{ csrf_token }}',
-              },
-              success: function(response) {
-                  if (response.liked) {
-                      button.find('i').removeClass('ri-heart-line').addClass('ri-heart-fill');
-                      button.data('liked', true);
-                  } else {
-                      button.find('i').removeClass('ri-heart-fill').addClass('ri-heart-line');
-                      button.data('liked', false);
-                  }
-              }
-          });
+      $(".toggle-favorite").on("click", function () {
+        var button = $(this);
+        var storyId = button.data("story-id");
+        var liked = button.data("liked");
+
+        $.ajax({
+          type: "POST",
+          url: "{% url 'toggle_favorite' 0 %}".replace("0", storyId),
+          data: {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+          },
+          success: function (response) {
+            if (response.liked) {
+              button
+                .find("i")
+                .removeClass("ri-heart-line")
+                .addClass("ri-heart-fill");
+              button.data("liked", true);
+            } else {
+              button
+                .find("i")
+                .removeClass("ri-heart-fill")
+                .addClass("ri-heart-line");
+              button.data("liked", false);
+            }
+          },
+        });
       });
     </script>
-
-    
 
     <!-- Include Axios library -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
