@@ -141,11 +141,27 @@ def contact_view(request):
 
 # Home page 
 # This function renders home page 
+@login_required(login_url='/not_login')
 def home_view(request):
     # Call the get_last_three() function to retrieve the last three added stories
     last_three_stories = models.Story.get_last_three()
     all_stories = models.Story.get_all_stories()
     return render(request, 'home.html', {'last_three_stories': last_three_stories, 'all_stories': all_stories})
+
+# Home Page
+#This function to search stories with AJAX
+@login_required(login_url='/not_login')
+def search_stories(request):
+    if request.method == 'POST':
+        print(request.POST)
+        title = request.POST.get('title')
+        stories = Story.objects.filter(title__contains=title)
+        print(stories)
+        context = {
+            "all_stories" : stories
+        }
+        serilized_stories = Story.serialize_stories(stories)
+        return render(request, 'stories_lists.html', context)
 
 # Home page
 # This function add specific story to the user's favorite list or remove it from the list
@@ -172,6 +188,7 @@ def favorite_list(request):
     return render(request, 'favorite_list.html', {'favorite_stories': favorite_stories})
 
 # this function to render to story_details page
+@login_required(login_url='/not_login')
 def story_details(request, story_id):
     story = models.Story.objects.get(id = story_id)
     if request.method == 'POST':

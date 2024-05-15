@@ -1,0 +1,46 @@
+{% for story in all_stories %}
+<div class="col-lg-4 col-md-6 mix {{ story.genre|lower }}">
+  <div class="single-event-box">
+    <form method="POST" action="{% url 'toggle_favorite' story.id %}">
+      {% csrf_token %}
+      <span style="position: relative; display: inline-block">
+        <img
+          src="{{ story.image.url }}"
+          alt="Image"
+          style="width: 550px; height: 300px"
+        />
+        <!-- Use conditional to determine heart icon class -->
+        {% if request.user in story.users_who_like.all %}
+        <button
+          type="button"
+          class="toggle-favorite"
+          data-story-id="{{ story.id }}"
+          data-liked="true"
+        >
+          <i class="ri-heart-fill heart_Icon"></i>
+        </button>
+        {% else %}
+        <button
+          type="button"
+          class="toggle-favorite"
+          data-story-id="{{ story.id }}"
+          data-liked="false"
+        >
+          <i class="ri-heart-line heart_Icon"></i>
+        </button>
+        {% endif %}
+      </span>
+    </form>
+    <div class="event-content">
+      <h3>
+        <a href="/story/{{ story.id }}">{{ story.title }}</a>
+      </h3>
+      <div class="rating text-warning" data-rate="{{ story.rate }}"></div>
+      <a href="/story/{{ story.id }}" class="read-more">
+        Read more
+        <i class="ri-arrow-right-s-line"></i>
+      </a>
+    </div>
+  </div>
+</div>
+{% endfor %}

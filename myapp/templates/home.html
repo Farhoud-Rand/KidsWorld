@@ -153,15 +153,24 @@
 
                         <div class="search-overlay search-popup">
                           <div class="search-box">
-                            <form class="search-form">
+                            <form
+                              class="search-form"
+                              method="post"
+                              id="search_form"
+                            >
+                              {% csrf_token %}
                               <input
                                 class="search-input"
-                                name="search"
-                                placeholder="Search"
+                                name="title"
+                                id="search-input"
+                                placeholder="Search by title"
                                 type="text"
                               />
-
-                              <button class="search-button" type="submit">
+                              <button
+                                class="search-button"
+                                type="submit"
+                                id="search-button"
+                              >
                                 <i class="ri-search-line"></i>
                               </button>
                             </form>
@@ -256,7 +265,7 @@
     </section>
     <!-- End Hero Slide Area -->
 
-    <!-- Start Gallery Area -->
+    <!-- Start stories Area -->
     <div class="gallery-area pt-100 pb-70">
       <div class="container">
         <div class="row">
@@ -276,7 +285,7 @@
         </div>
 
         <div id="Container">
-          <div class="row">
+          <div class="row" id="srch_results">
             {% for story in all_stories %}
             <div class="col-lg-4 col-md-6 mix {{ story.genre|lower }}">
               <div class="single-event-box">
@@ -315,13 +324,13 @@
                 </form>
                 <div class="event-content">
                   <h3>
-                    <a href="#">{{ story.title }}</a>
+                    <a href="/story/{{ story.id }}">{{ story.title }}</a>
                   </h3>
                   <div
                     class="rating text-warning"
                     data-rate="{{ story.rate }}"
                   ></div>
-                  <a href="/story_details" class="read-more">
+                  <a href="/story/{{ story.id }}" class="read-more">
                     Read more
                     <i class="ri-arrow-right-s-line"></i>
                   </a>
@@ -333,8 +342,8 @@
         </div>
       </div>
     </div>
-    <!-- End Gallery Area -->
-    <input type="hidden" id="csrf_token" value="{% csrf_token %}" />
+    <!-- End stories Area -->
+    <!-- <input type="hidden" id="csrf_token" value="{% csrf_token %}" /> -->
     <!-- Start Footer Area -->
     <footer class="footer-area pt-70 pb-40">
       <div class="container">
@@ -455,6 +464,24 @@
               button.data("liked", false);
             }
           },
+        });
+      });
+
+      // search with AJAX
+      $(document).ready(function () {
+        $("#search_form").submit((e) => {
+          e.preventDefault();
+          // console.log(e);
+          data = $("#search_form").serialize();
+          $.ajax({
+            url: "{% url 'search_stories' %}",
+            data: data,
+            type: "POST",
+          }).done((data) => {
+            if (data) {
+              $("#srch_results").html(data);
+            }
+          });
         });
       });
     </script>
