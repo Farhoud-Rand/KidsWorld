@@ -51,7 +51,7 @@
       </div>
     </div>
     <!-- End Preloader Area -->
-
+ 
     <!-- Start Header Area -->
     <header class="header-area">
       <!-- Start Top Header -->
@@ -153,40 +153,18 @@
 
                         <div class="search-overlay search-popup">
                           <div class="search-box">
-                            <form class="search-form" method="post">
-                              {% csrf_token %}
+                            <form class="search-form">
                               <input
                                 class="search-input"
-                                name="title"
-                                id="search-input"
-                                placeholder="Search by title"
+                                name="search"
+                                placeholder="Search"
                                 type="text"
                               />
-                              <select name="age-limit" id="age-limit">
-                                <option value="">Select Age Limit</option>
-                                <option value="2-5">2-5</option>
-                                <option value="6-9">6-9</option>
-                                <option value="10-12">10-12</option>
-                              </select>
 
-                              <button
-                                class="search-button"
-                                id="search-button"
-                                type="submit"
-                              >
+                              <button class="search-button" type="submit">
                                 <i class="ri-search-line"></i>
                               </button>
                             </form>
-                          </div>
-                          <div id="search-results">
-                            {% block content %}
-                            <h1>Search Results</h1>
-                            <ul>
-                              {% for story in stories %}
-                              <li>{{ story.title }} ({{ story.age_limit }})</li>
-                              {% endfor %}
-                            </ul>
-                            {% endblock %}
                           </div>
                         </div>
                       </div>
@@ -213,75 +191,64 @@
       <!-- End Navbar Area -->
     </header>
     <!-- End Header Area -->
-
-    <!-- Start Hero Slider Area -->
-    <section class="hero-slider-area">
-      <div class="hero-slider owl-theme owl-carousel" data-slider-id="1">
-        <!-- Loop through the last three stories -->
-        {% for story in last_three_stories %}
-        <div class="hero-slider-item">
-          <div class="d-table">
-            <div class="d-table-cell">
-              <div class="container-fluid">
-                <div class="row align-items-center">
-                  <div class="col-lg-6">
-                    <div class="hero-slider-content pr-15">
-                      <span class="top-title">{{ story.genre }}</span>
-                      <h1>{{ story.title }}</h1>
-                      <p>
-                        Age: {{ story.age_limit }} <br />
-                        Language: {{ story.language }}
-                      </p>
-                      <!-- Add more fields as needed -->
-                      <div class="slider-btn">
-                        <a href="/story/{{ story.id }}" class="default-btn">
-                          Learn more
-                        </a>
-                      </div>
-                    </div>
+<!-- Start Hero Slider Area -->
+<section class="hero-slider-area">
+  <div class="hero-slider owl-theme owl-carousel" data-slider-id="1">
+    <!-- Loop through the last three stories -->
+    {% for story in last_three_stories %}
+    <div class="hero-slider-item">
+      <div class="d-table">
+        <div class="d-table-cell">
+          <div class="container-fluid">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <div class="hero-slider-content pr-15">
+                  <span class="top-title">{{ story.genre }}</span>
+                  <h1>{{ story.title }}</h1>
+                  <p>Age: {{ story.age_limit }} <br> Language: {{ story.language }}</p>
+                  <!-- Add more fields as needed -->
+                  <div class="slider-btn">
+                    <a href="#" class="default-btn">
+                      Learn more
+                    </a>
                   </div>
+                </div>
+              </div>
 
-                  <div class="col-lg-6">
-                    <div class="slider-img pl-15">
-                      <!-- Use the image field of the story -->
-                      <img
-                        src="{{ story.image.url }}"
-                        alt="Image"
-                        style="width: 875px; height: 530px"
-                      />
-                    </div>
-                  </div>
+              <div class="col-lg-6">
+                <div class="slider-img pl-15">
+                  <!-- Use the image field of the story -->
+                  <img src="{{ story.image.url }}" alt="Image" style="width: 875px; height: 530px;"/>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="slider-shape">
-            <img
-              src="{% static 'images/slider/slider-shape.png' %}"
-              alt="Image"
-            />
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-
-      <!-- Start Carousel Thumbs -->
-      <div class="thumbs-wrap">
-        <div class="owl-thumbs hero-slider-thumb" data-slider-id="1">
-          <!-- Add thumbs for each story -->
-          {% for story in last_three_stories %}
-          <div class="owl-thumb-item">
-            <span>{{ forloop.counter }}</span>
-          </div>
-          {% endfor %}
         </div>
       </div>
-      <!-- End Carousel Thumbs -->
-    </section>
-    <!-- End Hero Slide Area -->
 
-    <!-- Start cards Area -->
+      <div class="slider-shape">
+        <img src="{% static 'images/slider/slider-shape.png' %}" alt="Image" />
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Start Carousel Thumbs -->
+  <div class="thumbs-wrap">
+    <div class="owl-thumbs hero-slider-thumb" data-slider-id="1">
+      <!-- Add thumbs for each story -->
+      {% for story in last_three_stories %}
+      <div class="owl-thumb-item">
+        <span>{{ forloop.counter }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- End Carousel Thumbs -->
+</section>
+<!-- End Hero Slide Area -->
+
+    <!-- Start Gallery Area -->
     <div class="gallery-area pt-100 pb-70">
       <div class="container">
         <div class="row">
@@ -300,57 +267,48 @@
           </div>
         </div>
 
+
+        
         <div id="Container">
-          <div class="row" id="ahla-rand">
+          <div class="row">
             {% for story in all_stories %}
             <div class="col-lg-4 col-md-6 mix {{ story.genre|lower }}">
-              <div class="single-event-box">
-                <span style="position: relative; display: inline-block">
-                  <img
-                    src="{{ story.image.url }}"
-                    alt="Image"
-                    style="width: 550px; height: 300px"
-                  />
-                  <!-- Use conditional to determine heart icon class -->
-                  {% if request.user in story.users_who_like.all %}
-                  <form action="/remove_from_favorites">
-                    <button
-                      type="submit"
-                      class="ri-heart-fill heart_Icon"
-                      data-story-id="{{ story.id }}"
-                    ></button>
-                  </form>
-
-                  {% else %}
-                  <i
-                    class="ri-heart-line heart_Icon"
-                    data-story-id="{{ story.id }}"
-                  ></i>
-                  {% endif %}
-                </span>
-
-                <div class="event-content">
-                  <h3>
-                    <a href="/story/{{ story.id }}">{{ story.title }}</a>
-                  </h3>
-                  <div
-                    class="rating text-warning"
-                    data-rate="{{ story.rate }}"
-                  ></div>
-                  <a href="/story/{{ story.id }}" class="read-more">
-                    Read more
-                    <i class="ri-arrow-right-s-line"></i>
-                  </a>
+                <div class="single-event-box">
+                  <form method="POST" action="{% url 'toggle_favorite' story.id %}">
+                    {% csrf_token %}
+                    <span style="position: relative; display: inline-block">
+                      <img src="{{ story.image.url }}" alt="Image" style="width: 550px; height: 300px;" />
+                      <!-- Use conditional to determine heart icon class -->
+                      {% if request.user in story.users_who_like.all %}
+                          <button type="button" class="toggle-favorite" data-story-id="{{ story.id }}" data-liked="true">
+                              <i class="ri-heart-fill heart_Icon"></i>
+                          </button>
+                      {% else %}
+                          <button type="button" class="toggle-favorite" data-story-id="{{ story.id }}" data-liked="false">
+                              <i class="ri-heart-line heart_Icon"></i>
+                          </button>
+                      {% endif %}
+                  </span>
+                </form>
+                    <div class="event-content">
+                        <h3>
+                            <a href="#">{{ story.title }}</a>
+                        </h3>
+                        <div class="rating text-warning" data-rate="{{ story.rate }}"></div>
+                        <a href="/about" class="read-more">
+                            Read more
+                            <i class="ri-arrow-right-s-line"></i>
+                        </a>
+                    </div>
                 </div>
-              </div>
             </div>
-            {% endfor %}
-          </div>
+        {% endfor %}
+          </div>          
         </div>
       </div>
     </div>
-    <!-- End cards Area -->
-    <input type="hidden" id="csrf_token" value="{% csrf_token %}" />
+    <!-- End Gallery Area -->
+    <input type="hidden" id="csrf_token" value="{% csrf_token %}"> 
     <!-- Start Footer Area -->
     <footer class="footer-area pt-70 pb-40">
       <div class="container">
@@ -441,80 +399,34 @@
       nomodule
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
-
+    <!-- Include jQuery from CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var heartIcons = document.querySelectorAll(".heart_Icon");
-
-        heartIcons.forEach(function (heartIcon) {
-          heartIcon.addEventListener("click", function () {
-            var storyId = heartIcon.dataset.storyId; // Assuming you have set a 'data-story-id' attribute in your HTML to store the story ID
-            var isFilled = heartIcon.classList.contains("ri-heart-fill");
-            // Toggle heart icon fill
-            if (isFilled) {
-              heartIcon.classList.remove("ri-heart-fill");
-              heartIcon.classList.add("ri-heart-line");
-              removeFromFavorites(storyId); // Call function to remove story from favorites
-            } else {
-              heartIcon.classList.remove("ri-heart-line");
-              heartIcon.classList.add("ri-heart-fill");
-              addToFavorites(storyId); // Call function to add story to favorites
-            }
+      // AJAX request to toggle favorite
+      $('.toggle-favorite').on('click', function() {
+          var button = $(this);
+          var storyId = button.data('story-id');
+          var liked = button.data('liked');
+          
+          $.ajax({
+              type: "POST",
+              url: "{% url 'toggle_favorite' 0 %}".replace('0', storyId),
+              data: {
+                  'csrfmiddlewaretoken': '{{ csrf_token }}',
+              },
+              success: function(response) {
+                  if (response.liked) {
+                      button.find('i').removeClass('ri-heart-line').addClass('ri-heart-fill');
+                      button.data('liked', true);
+                  } else {
+                      button.find('i').removeClass('ri-heart-fill').addClass('ri-heart-line');
+                      button.data('liked', false);
+                  }
+              }
           });
-        });
-
-        function addToFavorites(storyId) {
-          // Get the CSRF token from the hidden input field
-          const csrfToken = document.getElementById("csrf_token").value;
-          // AJAX request to add story to favorites
-          fetch("/add_to_favorites", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRFToken": csrfToken, // Ensure CSRF token is included in request headers
-            },
-            body: JSON.stringify({ story_id: storyId }),
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error("Failed to add story to favorites");
-              }
-              // Handle success response if needed
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-              // Handle error if needed
-            });
-        }
-
-        function removeFromFavorites(storyId) {
-          // AJAX request to remove story from favorites
-          // Get the CSRF token from the hidden input field
-          const csrfToken = document.getElementById("csrf_token").value;
-          fetch("/remove_from_favorites", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRFToken": csrfToken, // Ensure you have CSRF token for security
-            },
-            body: JSON.stringify({ story_id: storyId }),
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error("Failed to remove story from favorites");
-              }
-              // Handle success response if needed
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-              // Handle error if needed
-            });
-        }
       });
     </script>
-
-    <!-- Include Axios library -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
     <!-- Jquery Min JS -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <!-- Bootstrap Bundle Min JS -->
