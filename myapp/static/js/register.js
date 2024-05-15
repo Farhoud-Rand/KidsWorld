@@ -13,7 +13,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     // Form submitted successfully, redirect to profile page
-                    window.location.href = '/profile';
+                    window.location.href = '/home';
                 } else {
                     // Handle unexpected response
                     console.error('Unexpected response:', response);

@@ -147,23 +147,22 @@ def home_view(request):
     all_stories = models.Story.get_all_stories()
     return render(request, 'home.html', {'last_three_stories': last_three_stories, 'all_stories': all_stories})
 
-def add_to_favorites(request):
-    print('inside add')
-    if request.method == 'POST':
-        story_id = request.POST.get('story_id')
-        print(story_id)
-        story = get_object_or_404(models.Story, id=story_id)
-        request.user.favorite_stories.add(story)
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False})
-
-def remove_from_favorites(request):
-    if request.method == 'POST' and request.is_ajax():
-        story_id = request.POST.get('story_id')
-        story = get_object_or_404(models.Story, id=story_id)
-        request.user.favorite_stories.remove(story)
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False})
+# Home page
+# This function add specific story to the user's favorite list or remove it from the list
+@login_required(login_url='/not_login')
+def toggle_favorite(request, story_id):
+    if request.method == "POST":
+        story = models.Story.objects.get(pk=story_id)
+        user = request.user
+        if user in story.users_who_like.all():
+            # If user has already liked the story, remove it from favorites
+            story.users_who_like.remove(user)
+            liked = False
+        else:
+            # If user hasn't liked the story, add it to favorites
+            story.users_who_like.add(user)
+            liked = True
+        return JsonResponse({'liked': liked})
 
 # Favorite list page
 # This function renders favorite list page that allows users to remove stories from list and to show these stories

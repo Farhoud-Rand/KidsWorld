@@ -13,7 +13,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     // Redirect to profile page after successful login
-                    window.location.href = '/profile';
+                    window.location.href = '/home';
                 } else {
                     // Display error message from server
                     $('.messages').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">Invalid username or password.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');

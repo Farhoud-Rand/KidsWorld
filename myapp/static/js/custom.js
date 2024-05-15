@@ -281,22 +281,21 @@
 // Our code 
 // Favorite List page | For story rating 
 document.addEventListener("DOMContentLoaded", function() {
-    var storyRate = 4; // Assuming storyRate is a variable representing the story rating
-    var ratingContainer =  document.querySelectorAll('.rating');
-	
-	// we should use the rate parameter {Story rate from DB} to be here --> if (i <= storyRate) (instead of storyRate)
-	ratingContainer.forEach(function(container, rate) {
-		for (var i = 1; i <= 5; i++) {
-			var starIcon = document.createElement('i');
-			starIcon.classList.add('ri');
-			if (i <= storyRate) {
-				starIcon.classList.add('ri-star-fill');
-			} else {
-				starIcon.classList.add('ri-star-line');
-			}
-			container.appendChild(starIcon);
-		}
-	});
+    var ratingContainers = document.querySelectorAll('.rating');
+
+    ratingContainers.forEach(function(container) {
+        var storyRate = parseInt(container.getAttribute('data-rate'));
+        for (var i = 1; i <= 5; i++) {
+            var starIcon = document.createElement('i');
+            starIcon.classList.add('ri');
+            if (i <= storyRate) {
+                starIcon.classList.add('ri-star-fill');
+            } else {
+                starIcon.classList.add('ri-star-line');
+            }
+            container.appendChild(starIcon);
+        }
+    });
 });
 
 // Favorite List page | Heart icon (remove from fav)
