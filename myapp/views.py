@@ -139,6 +139,14 @@ def contact_view(request):
             return JsonResponse({'success': False, 'error': 'All fields are required.'})
     return render(request, 'contact.html')
 
+# Home page 
+# This function renders home page 
+def home_view(request):
+    # Call the get_last_three() function to retrieve the last three added stories
+    last_three_stories = models.Story.get_last_three()
+    all_stories = models.Story.get_all_stories()
+    return render(request, 'home.html', {'last_three_stories': last_three_stories, 'all_stories': all_stories})
+
 # Favorite list page
 # This function renders favorite list page that allows users to remove stories from list and to show these stories
 @login_required(login_url='/not_login')

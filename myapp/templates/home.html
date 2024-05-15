@@ -61,9 +61,9 @@
             <div class="col-lg-6 col-md-6">
               <ul class="header-left-content">
                 <li>
-                  <a href="mailto:info@kidsWorld.com">
+                  <a href="mailto:k16735848@gmail.com">
                     <i class="ri-mail-open-fill"></i>
-                    info@kidsWorld.com
+                    k16735848@gmail.com
                   </a>
                 </li>
               </ul>
@@ -81,7 +81,7 @@
 
                     <ul class="my-account-link">
                       <li>
-                        <a href="#"> Log Out </a>
+                        <a href="/logout"> Log Out </a>
                       </li>
                     </ul>
                   </li>
@@ -99,7 +99,7 @@
           <div class="container">
             <div class="mobile-responsive-menu">
               <div class="logo">
-                <a href="index.html">
+                <a href="/home">
                   <img src="{% static 'images/logo.png' %}" alt="logo" />
                 </a>
               </div>
@@ -110,7 +110,7 @@
         <div class="desktop-nav">
           <div class="container">
             <nav class="navbar navbar-expand-md navbar-light">
-              <a class="navbar-brand" href="index.html">
+              <a class="navbar-brand" href="/home">
                 <img src="{% static 'images/logo.png' %}" alt="logo" />
               </a>
 
@@ -120,28 +120,28 @@
               >
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a href="home_with_login.html" class="nav-link active">
+                    <a href="/home" class="nav-link active">
                       <!-- Also we can use : "galleries.html" -->
                       Home
                     </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="profile.html" class="nav-link"> Profile </a>
+                    <a href="/profile" class="nav-link"> Profile </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="favorite_list.html" class="nav-link">
+                    <a href="/favorite_list" class="nav-link">
                       Favorite List
                     </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="about.html" class="nav-link"> About us </a>
+                    <a href="/about" class="nav-link"> About us </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="contact.html" class="nav-link"> Contact us </a>
+                    <a href="/contact" class="nav-link"> Contact us </a>
                   </li>
                 </ul>
                 <div class="others-options">
@@ -153,18 +153,40 @@
 
                         <div class="search-overlay search-popup">
                           <div class="search-box">
-                            <form class="search-form">
+                            <form class="search-form" method="post">
+                              {% csrf_token %}
                               <input
                                 class="search-input"
-                                name="search"
-                                placeholder="Search"
+                                name="title"
+                                id="search-input"
+                                placeholder="Search by title"
                                 type="text"
                               />
+                              <select name="age-limit" id="age-limit">
+                                <option value="">Select Age Limit</option>
+                                <option value="2-5">2-5</option>
+                                <option value="6-9">6-9</option>
+                                <option value="10-12">10-12</option>
+                              </select>
 
-                              <button class="search-button" type="submit">
+                              <button
+                                class="search-button"
+                                id="search-button"
+                                type="submit"
+                              >
                                 <i class="ri-search-line"></i>
                               </button>
                             </form>
+                          </div>
+                          <div id="search-results">
+                            {% block content %}
+                            <h1>Search Results</h1>
+                            <ul>
+                              {% for story in stories %}
+                              <li>{{ story.title }} ({{ story.age_limit }})</li>
+                              {% endfor %}
+                            </ul>
+                            {% endblock %}
                           </div>
                         </div>
                       </div>
@@ -195,58 +217,8 @@
     <!-- Start Hero Slider Area -->
     <section class="hero-slider-area">
       <div class="hero-slider owl-theme owl-carousel" data-slider-id="1">
-        <div class="hero-slider-item">
-          <div class="d-table">
-            <div class="d-table-cell">
-              <div class="container-fluid">
-                <div class="row align-items-center">
-                  <div class="col-lg-6">
-                    <div
-                      class="hero-slider-content pr-15"
-                      data-cues="slideInUp"
-                      data-group="images"
-                    >
-                      <span class="top-title">Discover the city</span>
-                      <h1>We developing a happy and sustainable city</h1>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua ipsum dolor sit amet.
-                      </p>
-
-                      <div class="slider-btn">
-                        <a href="about.html" class="default-btn">
-                          Learn more
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-6">
-                    <div
-                      class="slider-img pl-15"
-                      data-cues="slideInUp"
-                      data-group="images"
-                    >
-                      <img
-                        src="{% static 'images/slider/slider-img-1.jpg' %}"
-                        alt="Image"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="slider-shape">
-            <img
-              src="{% static 'images/slider/slider-shape.png' %}"
-              alt="Image"
-            />
-          </div>
-        </div>
-
+        <!-- Loop through the last three stories -->
+        {% for story in last_three_stories %}
         <div class="hero-slider-item">
           <div class="d-table">
             <div class="d-table-cell">
@@ -254,16 +226,15 @@
                 <div class="row align-items-center">
                   <div class="col-lg-6">
                     <div class="hero-slider-content pr-15">
-                      <span class="top-title">Discover the city</span>
-                      <h1>Cooperation has become a central element</h1>
+                      <span class="top-title">{{ story.genre }}</span>
+                      <h1>{{ story.title }}</h1>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua ipsum dolor sit amet.
+                        Age: {{ story.age_limit }} <br />
+                        Language: {{ story.language }}
                       </p>
-
+                      <!-- Add more fields as needed -->
                       <div class="slider-btn">
-                        <a href="about.html" class="default-btn">
+                        <a href="/story/{{ story.id }}" class="default-btn">
                           Learn more
                         </a>
                       </div>
@@ -272,9 +243,11 @@
 
                   <div class="col-lg-6">
                     <div class="slider-img pl-15">
+                      <!-- Use the image field of the story -->
                       <img
-                        src="{% static 'images/slider/slider-img-2.jpg' %}"
+                        src="{{ story.image.url }}"
                         alt="Image"
+                        style="width: 875px; height: 530px"
                       />
                     </div>
                   </div>
@@ -290,77 +263,26 @@
             />
           </div>
         </div>
-
-        <div class="hero-slider-item">
-          <div class="d-table">
-            <div class="d-table-cell">
-              <div class="container-fluid">
-                <div class="row align-items-center">
-                  <div class="col-lg-6">
-                    <div class="hero-slider-content pr-15">
-                      <span class="top-title">Discover the city</span>
-                      <h1>
-                        The municipality is constantly looking to start new
-                        initiatives
-                      </h1>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua ipsum dolor sit amet.
-                      </p>
-
-                      <div class="slider-btn">
-                        <a href="about.html" class="default-btn">
-                          Learn more
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-6">
-                    <div class="slider-img pl-15">
-                      <img
-                        src="{% static 'images/slider/slider-img-3.jpg' %}"
-                        alt="Image"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="slider-shape">
-            <img
-              src="{% static 'images/slider/slider-shape.png' %}"
-              alt="Image"
-            />
-          </div>
-        </div>
+        {% endfor %}
       </div>
 
       <!-- Start Carousel Thumbs -->
       <div class="thumbs-wrap">
         <div class="owl-thumbs hero-slider-thumb" data-slider-id="1">
+          <!-- Add thumbs for each story -->
+          {% for story in last_three_stories %}
           <div class="owl-thumb-item">
-            <span>1</span>
+            <span>{{ forloop.counter }}</span>
           </div>
-
-          <div class="owl-thumb-item">
-            <span>2</span>
-          </div>
-
-          <div class="owl-thumb-item">
-            <span>3</span>
-          </div>
+          {% endfor %}
         </div>
       </div>
       <!-- End Carousel Thumbs -->
     </section>
     <!-- End Hero Slide Area -->
 
-    <!-- Start Gallery Area -->
-    <div class="gallery-area gallery-popup pt-100 pb-70">
+    <!-- Start cards Area -->
+    <div class="gallery-area pt-100 pb-70">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -379,190 +301,62 @@
         </div>
 
         <div id="Container">
-          <div class="row">
-            <div class="col-lg-4 col-md-6 mix animals">
+          <div class="row" id="ahla-rand">
+            {% for story in all_stories %}
+            <div class="col-lg-4 col-md-6 mix {{ story.genre|lower }}">
               <div class="single-event-box">
                 <span style="position: relative; display: inline-block">
                   <img
-                    src="{% static 'images/events/event-2.jpg' %}"
-                    alt="Images"
+                    src="{{ story.image.url }}"
+                    alt="Image"
+                    style="width: 550px; height: 300px"
                   />
-                  <i class="ri-heart-line heart_Icon"></i>
+                  <!-- Use conditional to determine heart icon class -->
+                  {% if request.user in story.users_who_like.all %}
+                  <form action="/remove_from_favorites">
+                    <button
+                      type="submit"
+                      class="ri-heart-fill heart_Icon"
+                      data-story-id="{{ story.id }}"
+                    ></button>
+                  </form>
+
+                  {% else %}
+                  <i
+                    class="ri-heart-line heart_Icon"
+                    data-story-id="{{ story.id }}"
+                  ></i>
+                  {% endif %}
                 </span>
 
                 <div class="event-content">
                   <h3>
-                    <a href="event-details.html"> Negotiation in government </a>
+                    <a href="/story/{{ story.id }}">{{ story.title }}</a>
                   </h3>
-                  <!-- Add this part for rating -->
-                  <div class="rating text-warning"></div>
-                  <a href="event-details.html" class="read-more">
+                  <div
+                    class="rating text-warning"
+                    data-rate="{{ story.rate }}"
+                  ></div>
+                  <a href="/story/{{ story.id }}" class="read-more">
                     Read more
                     <i class="ri-arrow-right-s-line"></i>
                   </a>
                 </div>
               </div>
             </div>
-
-            <div class="col-lg-4 col-md-6 mix science fantasy">
-              <div class="single-event-box">
-                <span style="position: relative; display: inline-block">
-                  <img
-                    src="{% static 'images/events/event-2.jpg' %}"
-                    alt="Images"
-                  />
-                  <i class="ri-heart-line heart_Icon"></i>
-                </span>
-
-                <div class="event-content">
-                  <h3>
-                    <a href="event-details.html"> Goodnight Moon </a>
-                  </h3>
-                  <!-- Add this part for rating -->
-                  <div class="rating text-warning"></div>
-                  <a href="event-details.html" class="read-more">
-                    Read more
-                    <i class="ri-arrow-right-s-line"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mix fantasy">
-              <div class="single-event-box">
-                <span style="position: relative; display: inline-block">
-                  <img
-                    src="{% static 'images/events/event-2.jpg' %}"
-                    alt="Images"
-                  />
-                  <i class="ri-heart-fill heart_Icon"></i>
-                </span>
-
-                <div class="event-content">
-                  <h3>
-                    <a href="event-details.html"> Negotiation in government </a>
-                  </h3>
-                  <!-- Add this part for rating -->
-                  <div class="rating text-warning"></div>
-                  <a href="event-details.html" class="read-more">
-                    Read more
-                    <i class="ri-arrow-right-s-line"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mix adventure fantasy">
-              <div class="single-event-box">
-                <span style="position: relative; display: inline-block">
-                  <img
-                    src="{% static 'images/events/event-2.jpg' %}"
-                    alt="Images"
-                  />
-                  <i class="ri-heart-line heart_Icon"></i>
-                </span>
-
-                <div class="event-content">
-                  <h3>
-                    <a href="event-details.html"> Annual health conference </a>
-                  </h3>
-                  <!-- Add this part for rating -->
-                  <div class="rating text-warning"></div>
-                  <a href="event-details.html" class="read-more">
-                    Read more
-                    <i class="ri-arrow-right-s-line"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-              <div class="single-event-box mix fantasy science">
-                <span style="position: relative; display: inline-block">
-                  <img
-                    src="{% static 'images/events/event-2.jpg' %}"
-                    alt="Images"
-                  />
-                  <i class="ri-heart-line heart_Icon"></i>
-                </span>
-
-                <div class="event-content">
-                  <h3>
-                    <a href="event-details.html">
-                      Governance for commercial activity
-                    </a>
-                  </h3>
-                  <!-- Add this part for rating -->
-                  <div class="rating text-warning"></div>
-                  <a href="event-details.html" class="read-more">
-                    Read more
-                    <i class="ri-arrow-right-s-line"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-              <div class="single-event-box">
-                <span style="position: relative; display: inline-block">
-                  <img
-                    src="{% static 'images/events/event-2.jpg' %}"
-                    alt="Images"
-                  />
-                  <i class="ri-heart-line heart_Icon"></i>
-                </span>
-
-                <div class="event-content">
-                  <h3>
-                    <a href="event-details.html"> Annual fire conference </a>
-                  </h3>
-                  <!-- Add this part for rating -->
-                  <div class="rating text-warning"></div>
-                  <a href="event-details.html" class="read-more">
-                    Read more
-                    <i class="ri-arrow-right-s-line"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-              <div class="single-event-box mix animals adventure">
-                <span style="position: relative; display: inline-block">
-                  <img
-                    src="{% static 'images/events/event-2.jpg' %}"
-                    alt="Images"
-                  />
-                  <i class="ri-heart-fill heart_Icon"></i>
-                </span>
-
-                <div class="event-content">
-                  <h3>
-                    <a href="event-details.html">
-                      Commercial business planning
-                    </a>
-                  </h3>
-                  <!-- Add this part for rating -->
-                  <div class="rating text-warning"></div>
-                  <a href="event-details.html" class="read-more">
-                    Read more
-                    <i class="ri-arrow-right-s-line"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
+            {% endfor %}
           </div>
         </div>
       </div>
     </div>
-    <!-- End Gallery Area -->
-
+    <!-- End cards Area -->
+    <input type="hidden" id="csrf_token" value="{% csrf_token %}" />
     <!-- Start Footer Area -->
     <footer class="footer-area pt-70 pb-40">
       <div class="container">
         <div class="col-lg-6 col-sm-6 mx-auto">
           <div class="col-6 mx-auto">
-            <a href="index.html" class="logo">
+            <a href="/home" class="logo">
               <img src="{% static 'images/white-logo.png' %}" alt="Image" />
             </a>
           </div>
@@ -606,19 +400,19 @@
           </ul>
           <ul class="menu">
             <li class="menu__item">
-              <a class="menu__link" href="home_without_login.html">Home</a>
+              <a class="menu__link" href="/home">Home</a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="profile.html">Profile</a>
+              <a class="menu__link" href="/profile">Profile</a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="favorite_list.html">Favorite List</a>
+              <a class="menu__link" href="/favorite_list">Favorite List</a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="about.html">About Us</a>
+              <a class="menu__link" href="/about">About Us</a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="contact.html">Contact Us</a>
+              <a class="menu__link" href="/contact">Contact Us</a>
             </li>
           </ul>
         </div>
@@ -648,6 +442,79 @@
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var heartIcons = document.querySelectorAll(".heart_Icon");
+
+        heartIcons.forEach(function (heartIcon) {
+          heartIcon.addEventListener("click", function () {
+            var storyId = heartIcon.dataset.storyId; // Assuming you have set a 'data-story-id' attribute in your HTML to store the story ID
+            var isFilled = heartIcon.classList.contains("ri-heart-fill");
+            // Toggle heart icon fill
+            if (isFilled) {
+              heartIcon.classList.remove("ri-heart-fill");
+              heartIcon.classList.add("ri-heart-line");
+              removeFromFavorites(storyId); // Call function to remove story from favorites
+            } else {
+              heartIcon.classList.remove("ri-heart-line");
+              heartIcon.classList.add("ri-heart-fill");
+              addToFavorites(storyId); // Call function to add story to favorites
+            }
+          });
+        });
+
+        function addToFavorites(storyId) {
+          // Get the CSRF token from the hidden input field
+          const csrfToken = document.getElementById("csrf_token").value;
+          // AJAX request to add story to favorites
+          fetch("/add_to_favorites", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": csrfToken, // Ensure CSRF token is included in request headers
+            },
+            body: JSON.stringify({ story_id: storyId }),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Failed to add story to favorites");
+              }
+              // Handle success response if needed
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              // Handle error if needed
+            });
+        }
+
+        function removeFromFavorites(storyId) {
+          // AJAX request to remove story from favorites
+          // Get the CSRF token from the hidden input field
+          const csrfToken = document.getElementById("csrf_token").value;
+          fetch("/remove_from_favorites", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": csrfToken, // Ensure you have CSRF token for security
+            },
+            body: JSON.stringify({ story_id: storyId }),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Failed to remove story from favorites");
+              }
+              // Handle success response if needed
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              // Handle error if needed
+            });
+        }
+      });
+    </script>
+
+    <!-- Include Axios library -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Jquery Min JS -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <!-- Bootstrap Bundle Min JS -->
