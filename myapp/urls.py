@@ -12,6 +12,7 @@ urlpatterns = [
     path('update_password', views.update_password, name='update_password'),
     path('contact',views.contact_view, name='contact'),
     path('home',views.home_view, name='home'),
+    path('search_stories', views.search_stories, name='search_stories'),
     path('toggle_favorite/<int:story_id>/', views.toggle_favorite, name='toggle_favorite'),
     path('favorite_list',views.favorite_list, name='favorite_list'),
     path('story/<int:story_id>', views.story_details, name='story_details'),
