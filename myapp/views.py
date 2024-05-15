@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
@@ -146,6 +146,24 @@ def home_view(request):
     last_three_stories = models.Story.get_last_three()
     all_stories = models.Story.get_all_stories()
     return render(request, 'home.html', {'last_three_stories': last_three_stories, 'all_stories': all_stories})
+
+def add_to_favorites(request):
+    print('inside add')
+    if request.method == 'POST':
+        story_id = request.POST.get('story_id')
+        print(story_id)
+        story = get_object_or_404(models.Story, id=story_id)
+        request.user.favorite_stories.add(story)
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+def remove_from_favorites(request):
+    if request.method == 'POST' and request.is_ajax():
+        story_id = request.POST.get('story_id')
+        story = get_object_or_404(models.Story, id=story_id)
+        request.user.favorite_stories.remove(story)
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 
 # Favorite list page
 # This function renders favorite list page that allows users to remove stories from list and to show these stories
