@@ -284,12 +284,17 @@ document.addEventListener("DOMContentLoaded", function() {
     var ratingContainers = document.querySelectorAll('.rating');
 
     ratingContainers.forEach(function(container) {
-        var storyRate = parseInt(container.getAttribute('data-rate'));
+        var storyRate = parseFloat(container.getAttribute('data-rate'));
+        var integerPart = Math.floor(storyRate);
+        var fractionalPart = storyRate - integerPart;
+	
         for (var i = 1; i <= 5; i++) {
             var starIcon = document.createElement('i');
             starIcon.classList.add('ri');
-            if (i <= storyRate) {
+            if (i <= integerPart) {
                 starIcon.classList.add('ri-star-fill');
+            } else if (i == integerPart + 1 && fractionalPart > 0) {
+                starIcon.classList.add('ri-star-half-line');
             } else {
                 starIcon.classList.add('ri-star-line');
             }

@@ -142,8 +142,10 @@
     </header>
     <!-- End Header Area -->
 
-    <!-- Start Page Title Area -->
-    
+     <!-- Start Page Title Area -->
+     <div class="page-title-area bg-2">
+      <div class="container">
+        <div class="page-title-content">
           <h2>Story Details</h2>
 
           <ul>
@@ -157,9 +159,6 @@
       </div>
     </div>
     <!-- End Page Title Area -->
-
-    
-
     <!-- Start story description area -->
     <section class="local-councils-services-area pb-70 mt-5">
       <div class="container">
@@ -167,7 +166,6 @@
           <div class=" col-lg-11 row mx-auto">
             <div class="col-lg-6">
               <div class="local-councils-content pr-15">
-                <!-- <span class="top-title">Title</span> -->
                 <h2 class="text-success">
                   {{ story.title }}
                 </h2>
@@ -179,27 +177,19 @@
                 </ul>
                 <a href="{{ story.file.url }}" type="application/vnd.oasis.opendocument.text" class="default-btn"> Read Story </a>
                 <a href="{{ story.file.url }}" class="default-btn" download>Download Story</a> 
+              </div>
                 <!-- <audio controls>
                   <source src="{{ story.audio_file.url }}" type="audio/mpeg">
               </audio> -->
-              </div>
-        <!-- start Rating -->
-        <!-- Start rating -->
-        <!-- <div
-        class="rating text-warning"
-        data-rate="{{ story.rate }}"
-      ></div> -->
-<!-- End rating -->
-
-<!-- ... rest of the code ... -->
-
-<div class="rate text-warning" data-rate="{{ story.rate }}"></div>
-        <!-- End rating -->
+              <!-- ... rest of the code ... -->
+              <div class="rate text-warning" data-rate="{{ story.rate }}"></div>
+              <!-- End rating -->
+            </div>
           
   
             <div class="col-lg-6">
               <div class="local-councils-img pl-15">
-                <img src="{{ story.image.url }}" alt="Image" style="height: 300px; width: 500px;"/>
+                <img src="{{ story.image.url }}" alt="Image" style="height: 300px; width: 350px;"/>
               </div>
             </div>
           </div>
@@ -245,8 +235,6 @@
 	<!-- end comments area -->
     </section>
     <!-- End story description area -->
-
-	
       <!-- Start Footer Area -->
       <footer class="footer-area pt-70 pb-40">
 		<div class="container">
@@ -309,14 +297,27 @@
 });
 
 function createStars(container) {
+    let currentRating = '{{user_rate}}'; // Variable to store the current rating 
     let clicked = false;
-    let currentRating = 0; // Variable to store the current rating
-
-    for (let i = 1; i <= 5; i++) {
+    if (currentRating > 0){
+      clicked = true;
+      for (let i = 1; i <= 5; i++) {
         const starIcon = document.createElement('i');
         starIcon.classList.add('ri');
-        starIcon.classList.add('ri-star-line');
+        if (i <= currentRating){
+          starIcon.classList.add('ri-star-fill');
+        } else {
+          starIcon.classList.add('ri-star-line');
+        }      
         container.appendChild(starIcon);
+      }
+    } else {
+      for (let i = 1; i <= 5; i++) {
+          const starIcon = document.createElement('i');
+          starIcon.classList.add('ri');
+          starIcon.classList.add('ri-star-line');
+          container.appendChild(starIcon);
+      }
     }
 
     container.addEventListener('mouseover', (event) => {
@@ -339,6 +340,8 @@ function createStars(container) {
         const index = Array.from(container.children).indexOf(target);
         currentRating = index + 1; // Update current rating
         fillStars(container, currentRating);
+        sendRate(currentRating);
+        
     });
 }
 
@@ -353,6 +356,23 @@ function fillStars(container, count) {
             starIcon.classList.remove('ri-star-fill');
         }
     }
+}
+
+function sendRate(currentRating){
+  const storyId = "{{story.id}}";
+  $.ajax({
+    type: 'POST',
+    url: "rate/"+storyId+"/"+currentRating,
+    data:{
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+    }
+  }).done((data) => {
+    if (data['success'] == true){
+      console.log("DARA")
+      console.log(data)
+    }
+  })
+
 }
 </script>
 
