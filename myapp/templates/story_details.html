@@ -89,6 +89,7 @@
       <!-- Start Top Header -->
 
       <!-- Start Navbar Area -->
+       <!-- Start Navbar Area -->
 	   <div class="navbar-area">
         <div class="mobile-responsive-nav">
           <div class="container">
@@ -142,9 +143,7 @@
     <!-- End Header Area -->
 
     <!-- Start Page Title Area -->
-    <div class="page-title-area bg-2">
-      <div class="container">
-        <div class="page-title-content">
+    
           <h2>Story Details</h2>
 
           <ul>
@@ -168,6 +167,7 @@
           <div class=" col-lg-11 row mx-auto">
             <div class="col-lg-6">
               <div class="local-councils-content pr-15">
+                <!-- <span class="top-title">Title</span> -->
                 <h2 class="text-success">
                   {{ story.title }}
                 </h2>
@@ -179,17 +179,23 @@
                 </ul>
                 <a href="{{ story.file.url }}" type="application/vnd.oasis.opendocument.text" class="default-btn"> Read Story </a>
                 <a href="{{ story.file.url }}" class="default-btn" download>Download Story</a> 
+                <!-- <audio controls>
+                  <source src="{{ story.audio_file.url }}" type="audio/mpeg">
+              </audio> -->
               </div>
         <!-- start Rating -->
-        <div class="stars" >
-          <i class="far fa-star" data-rating="1"></i>
-          <i class="far fa-star" data-rating="2"></i>
-          <i class="far fa-star" data-rating="3"></i>
-          <i class="far fa-star" data-rating="4"></i>
-          <i class="far fa-star" data-rating="5"></i>
-        </div>
+        <!-- Start rating -->
+        <!-- <div
+        class="rating text-warning"
+        data-rate="{{ story.rate }}"
+      ></div> -->
+<!-- End rating -->
+
+<!-- ... rest of the code ... -->
+
+<div class="rate text-warning" data-rate="{{ story.rate }}"></div>
         <!-- End rating -->
-            </div>
+          
   
             <div class="col-lg-6">
               <div class="local-councils-img pl-15">
@@ -296,7 +302,61 @@
       <i class="ri-arrow-up-s-fill"></i>
     </div>
     <!-- End Go Top Area -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const ratingContainers = document.querySelector('.rate');
+    createStars(ratingContainers);
+});
 
+function createStars(container) {
+    let clicked = false;
+    let currentRating = 0; // Variable to store the current rating
+
+    for (let i = 1; i <= 5; i++) {
+        const starIcon = document.createElement('i');
+        starIcon.classList.add('ri');
+        starIcon.classList.add('ri-star-line');
+        container.appendChild(starIcon);
+    }
+
+    container.addEventListener('mouseover', (event) => {
+        const target = event.target;
+        if (target.tagName === 'I' && !clicked) {
+            const index = Array.from(container.children).indexOf(target);
+            fillStars(container, index + 1);
+        }
+    });
+
+    container.addEventListener('mouseout', () => {
+        if (!clicked) {
+            fillStars(container, currentRating);
+        }
+    });
+
+    container.addEventListener('click', (event) => {
+        clicked = true;
+        const target = event.target;
+        const index = Array.from(container.children).indexOf(target);
+        currentRating = index + 1; // Update current rating
+        fillStars(container, currentRating);
+    });
+}
+
+function fillStars(container, count) {
+    for (let i = 0; i < 5; i++) {
+        const starIcon = container.children[i];
+        if (i < count) {
+            starIcon.classList.add('ri-star-fill');
+            starIcon.classList.remove('ri-star-line');
+        } else {
+            starIcon.classList.add('ri-star-line');
+            starIcon.classList.remove('ri-star-fill');
+        }
+    }
+}
+</script>
+
+    
     <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- the PDF.js library -->
