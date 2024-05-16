@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     // Get the form element
     const form = document.getElementById('profileForm');
 

@@ -280,14 +280,16 @@
 // -------------------------------------------------
 // Our code 
 // Favorite List page | For story rating 
-document.addEventListener("DOMContentLoaded", function() {
+$(document).ready(function() {
     var ratingContainers = document.querySelectorAll('.rating');
 
     ratingContainers.forEach(function(container) {
         var storyRate = parseFloat(container.getAttribute('data-rate'));
         var integerPart = Math.floor(storyRate);
         var fractionalPart = storyRate - integerPart;
-	
+		console.log("Values")
+		console.log(storyRate, integerPart, fractionalPart)
+
         for (var i = 1; i <= 5; i++) {
             var starIcon = document.createElement('i');
             starIcon.classList.add('ri');
@@ -304,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Favorite List page | Heart icon (remove from fav)
-document.addEventListener("DOMContentLoaded", function() {
+$(document).ready(function() {
     var heartIcons = document.querySelectorAll('.heart_Icon');
 
     heartIcons.forEach(function(heartIcon) {

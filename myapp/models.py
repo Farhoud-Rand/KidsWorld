@@ -113,11 +113,11 @@ class Rate(models.Model):
             rate_sum += rating.amount
             count += 1
         print("C",count)
-        if count > 1:
+        if count >= 1:
             avg = rate_sum / count 
-        story.rate = avg
-        print("Story avg= ",avg)
-        story.save()
+            story.rate = avg 
+            print("avg",count)
+            story.save()
 
     # Get user rating for specific story 
     @staticmethod
