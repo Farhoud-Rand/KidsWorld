@@ -186,16 +186,55 @@
         </div>
 
         <div class="others-option-for-responsive">
-          <div class="container">
-            <div class="dot-menu">
-              <div class="inner">
-                <div class="circle circle-one"></div>
-                <div class="circle circle-two"></div>
-                <div class="circle circle-three"></div>
+					<div class="container">
+						<div class="dot-menu">
+							<div class="inner">
+								<div class="circle circle-one"></div>
+								<div class="circle circle-two"></div>
+								<div class="circle circle-three"></div>
+							</div>
+						</div>
+						
+						<div class="others-option-for-responsive">
+              <div class="container">
+                <div class="dot-menu">
+                  <div class="inner">
+                    <div class="circle circle-one"></div>
+                    <div class="circle circle-two"></div>
+                    <div class="circle circle-three"></div>
+                  </div>
+                </div>
+                
+                <div class="container">
+                  <div class="option-inner">
+                    <div class="others-option">
+                      <ul>
+                        <li>
+                          <div class="option-item">
+                            <i class="search-btn ri-search-line"></i>
+                            <i class="close-btn ri-close-line"></i>
+                            
+                            <div class="search-overlay search-popup">
+                              <div class='search-box'>
+                                <form class="search-form">
+                                  <input class="search-input" name="search" placeholder="Search" type="text">
+          
+                                  <button class="search-button" type="submit">
+                                    <i class="ri-search-line"></i>
+                                  </button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+					</div>
+				</div>
       </div>
       <!-- End Navbar Area -->
     </header>
@@ -470,6 +509,27 @@
       // search with AJAX
       $(document).ready(function () {
         $("#search_form").submit((e) => {
+          $(".search-popup").hide()
+          $('.search-btn').show();
+          $('.close-btn').removeClass('active');
+          e.preventDefault();
+          // console.log(e);
+          data = $("#search_form").serialize();
+          $.ajax({
+            url: "{% url 'search_stories' %}",
+            data: data,
+            type: "POST",
+          }).done((data) => {
+            if (data) {
+              $("#srch_results").html(data);
+            }
+          });
+        });
+      });
+
+      // search with AJAX
+      $(document).ready(function () {
+        $("#search_form").keyup((e) => {
           e.preventDefault();
           // console.log(e);
           data = $("#search_form").serialize();
