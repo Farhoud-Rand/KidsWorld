@@ -109,14 +109,11 @@ class Rate(models.Model):
         rate_sum = 0
         count = 0
         for rating in story.rates.all():
-            print("RAM", rating.amount)
             rate_sum += rating.amount
             count += 1
-        print("C",count)
         if count >= 1:
             avg = rate_sum / count 
             story.rate = avg 
-            print("avg",count)
             story.save()
 
     # Get user rating for specific story 
@@ -138,15 +135,3 @@ class Rate(models.Model):
 # To get a specific user by using user id
 def get_user_by_id(id):
     return User.objects.get(id = id)
-
-# To get a specific user by using user id
-def get_story_by_id(id):
-    return Story.objects.get(id = id)
-
-# Add comment 
-def add_comment(request_data, user_id):
-    story_id = request_data['id']
-    user = get_user_by_id(user_id)
-    story = get_story_by_id(story_id)
-    text = request_data['comment']
-    Comment.objects.create(user=user, story=story, text=text)

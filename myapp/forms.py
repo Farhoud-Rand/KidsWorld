@@ -86,7 +86,7 @@ class StoryCommentForm(forms.ModelForm):
         model = Comment
         fields = ['comment_content']
         widgets = {
-            'comment_content': forms.TextInput()
+            'comment_content': forms.TextInput(),
         }
 
 
