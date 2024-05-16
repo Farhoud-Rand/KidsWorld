@@ -216,6 +216,7 @@ def add_rate(request, story_id, rate):
         models.Rate.change_story_rate(story_id, rate)
         return JsonResponse({'success': True}) 
 
+
 # Delete a comment 
 def delete_comment(request):
     if request.method == 'POST':
@@ -223,11 +224,27 @@ def delete_comment(request):
         comment = get_object_or_404(Comment, id=comment_id)
         if request.user == comment.user_who_comment:
             comment.delete()
-            messages.success(request, 'Comment deleted successfully.')
+            return JsonResponse({'success': True}) 
         else:
-            messages.error(request, 'You are not authorized to delete this comment.')
+            return JsonResponse({'success': False}) 
     else:
-        messages.error(request, 'Invalid request method.')
+        return JsonResponse({'success': False}) 
 
 # Redirect back to the story details page
     return redirect('story_details', story_id=request.POST.get('id', 0))
+
+# # Delete a comment 
+# def delete_comment(request):
+#     if request.method == 'POST':
+#         comment_id = request.POST.get('comment_id')
+#         comment = get_object_or_404(Comment, id=comment_id)
+#         if request.user == comment.user_who_comment:
+#             comment.delete()
+#             messages.success(request, 'Comment deleted successfully.')
+#         else:
+#             messages.error(request, 'You are not authorized to delete this comment.')
+#     else:
+#         messages.error(request, 'Invalid request method.')
+
+# # Redirect back to the story details page
+#     return redirect('story_details', story_id=request.POST.get('id', 0))
