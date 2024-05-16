@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Story(models.Model):
     CATEGORIES = [
         ('Adventure', 'Adventure'),
@@ -24,7 +23,7 @@ class Story(models.Model):
     age_limit = models.CharField(choices= AGE_LIMIT, max_length= 255)
     file = models.FileField(upload_to="PDFs/", null=True) #for tesing "we must back later"
     image = models.ImageField(upload_to="Images/", null=True)
-    rate = models.PositiveBigIntegerField(default=0)
+    rate = models.FloatField(default=0.0)
     users_who_like = models.ManyToManyField(User, related_name="favorite_stories")
     created_at = models.DateTimeField(auto_now_add= True)
     updated_at = models.DateTimeField(auto_now= True)
@@ -64,7 +63,6 @@ class Story(models.Model):
     def get_story_by_id(id):
         return Story.objects.get(id = id)
 
-
 class Comment(models.Model):
     comment_content = models.TextField(null=True)
     user_who_comment = models.ForeignKey(User, related_name="user_who_comment", on_delete= models.CASCADE, null=True )
@@ -81,11 +79,61 @@ class Comment(models.Model):
         Comment.objects.create(user=user, story=story, text=text)
 
 class Rate(models.Model):
-    user_who_rate = models.ForeignKey(User, related_name= "rate", on_delete= models.CASCADE)
-    story_which_rate = models.ForeignKey(Story, related_name="story_rate", on_delete= models.CASCADE)
+    user_who_rate = models.ForeignKey(User, related_name= "rates", on_delete= models.CASCADE)
+    story_which_rate = models.ForeignKey(Story, related_name="rates", on_delete= models.CASCADE)
     amount = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add= True)
     updated_at = models.DateTimeField(auto_now= True)
+
+    # Add and update rate
+    @staticmethod
+    def add_rate(user_id, story_id, rate):
+        story = Story.get_story_by_id(story_id)
+        user = get_user_by_id(user_id)
+        
+        # Check if the user has already rated this story
+        existing_rate = Rate.objects.filter(user_who_rate=user, story_which_rate=story).first()
+        
+        if existing_rate:
+            # If user has already rated, update the existing rating
+            existing_rate.amount = rate
+            existing_rate.save()
+        else:
+            # If user has not rated, create a new rating
+            Rate.objects.create(user_who_rate=user, story_which_rate=story, amount=rate)
+
+    # Change the story rate variable according to user rates
+    @staticmethod
+    def change_story_rate(story_id, new_rate):
+        story = Story.get_story_by_id(story_id)
+        rate_sum = 0
+        count = 0
+        for rating in story.rates.all():
+            print("RAM", rating.amount)
+            rate_sum += rating.amount
+            count += 1
+        print("C",count)
+        if count > 1:
+            avg = rate_sum / count 
+        story.rate = avg
+        print("Story avg= ",avg)
+        story.save()
+
+    # Get user rating for specific story 
+    @staticmethod
+    def get_user_rate(user_id, story_id):
+        try:
+            # Get the user
+            user = User.objects.get(pk=user_id)
+            # Get the story
+            story = Story.objects.get(pk=story_id)
+            
+            # Filter rates based on user and story
+            user_rating = Rate.objects.get(user_who_rate=user, story_which_rate=story)
+            
+            return user_rating.amount  # Return the rating amount
+        except (User.DoesNotExist, Story.DoesNotExist, Rate.DoesNotExist):
+            return 0  # Handle cases where user, story, or rating doesn't exist
 
 # To get a specific user by using user id
 def get_user_by_id(id):

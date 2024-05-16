@@ -16,6 +16,7 @@ urlpatterns = [
     path('toggle_favorite/<int:story_id>/', views.toggle_favorite, name='toggle_favorite'),
     path('favorite_list',views.favorite_list, name='favorite_list'),
     path('story/<int:story_id>', views.story_details, name='story_details'),
-    path('delete_comment', views.delete_comment, name='delete_comment')
+    path('delete_comment', views.delete_comment, name='delete_comment'),
+    path('story/rate/<int:story_id>/<int:rate>', views.add_rate, name='add_rate'),
 
 ]

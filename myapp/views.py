@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
@@ -8,7 +8,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import get_template
 from . import models
-
 
 # About us page 
 # This function renders about us page 
@@ -203,8 +202,17 @@ def story_details(request, story_id):
             errors = {field: [error for error in errors] for field, errors in form.errors.items()}
             return JsonResponse({'success': False, 'errors': errors}, status=400)
     else:
-        form = StoryCommentForm()  
-    return render(request, 'story_details.html', {'story': story, 'form':form})
+        form = StoryCommentForm()
+        rate = models.Rate.get_user_rate(request.user.id, story_id)  
+    return render(request, 'story_details.html', {'story': story, 'form':form, 'user_rate':rate})
+
+# Story Details page
+# This function is used to add rate to specifiy stroy 
+def add_rate(request, story_id, rate):
+    if request.method == 'POST':
+        models.Rate.add_rate(request.user.id, story_id, rate)
+        models.Rate.change_story_rate(story_id, rate)
+        return JsonResponse({'success': True}) 
 
 # Delete a comment 
 def delete_comment(request):
@@ -215,4 +223,4 @@ def delete_comment(request):
             return redirect("/story/"+id)
     else: 
         # Else render a template containing the SweetAlert message and go back to root route
-        return render(request, "story_details.html")
+        return render(request, "story_details.html")    

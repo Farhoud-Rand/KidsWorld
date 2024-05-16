@@ -4374,7 +4374,7 @@ Page-navigation Area Style*/
 /* --------------------------------- */
 /* Our Code */
 /* Favorite list */
-.ri-star-fill, .ri-star-line {
+.ri-star-fill, .ri-star-line, .ri-star-half-line {
     font-size: 30px; /* Adjust the size as needed */
 }
 
