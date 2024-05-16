@@ -196,10 +196,11 @@
           </div>
           
       
+	   
 	  <!-- Start comments area -->
 	<div>
 		<h3 class="col-lg-11  mx-auto">Add Comment</h3>
-		<div class="col-8 mx-auto">
+		<div class="col-8 mx-5 px-3 ">
       <form id="comment-form" class="user-form" method="post">
         {% csrf_token %}
         {{ form|crispy }}
@@ -211,24 +212,27 @@
             </div>
         </div>
     </form>
-      <div>
-        <h3>Story Comments:</h3>
-        <ul>
-          {% for comment in comments %}
-          <li>
-            <p>{{ comment.user.name }} at {{ comment.created_at }}: {{ comment.comment_content }}</p>
-          {% if user.id == comment.user.id %}
-          <form action="/delete_comment" method="post" class="col-3">
-          {% csrf_token %}
-          <input type="hidden" name="id" id="" value="{{ story.id }}">
-          <input type="hidden" name="comment_id" id="" value="{{ comment.id }}">
-          <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
-          {% endif %}
-        </li>
-        {% endfor %}
-        </ul>
+      <h3 class="col-lg-11  mx-auto">Story Comments:</h3>
+      <div class="card">
+          <ul class="list-group list-group-flush" id="show_comments">
+              {% for comment in comments %}
+              <li class="list-group-item">
+                  <div class="card-body row">
+                      <p class="card-text col-9" >{{ comment.user_who_comment.username }} at {{ comment.created_at }}: {{ comment.comment_content }}</p>
+                      {% if user.id == comment.user_who_comment.id %}
+                      <form action="/delete_comment" method="post" class="col-3">
+                          {% csrf_token %}
+                          <input type="hidden" name="id" id="" value="{{ story.id }}">
+                          <input type="hidden" name="comment_id" id="" value="{{ comment.id }}">
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                      {% endif %}
+                  </div>
+              </li>
+              {% endfor %}
+          </ul>
       </div>
+  
 		</div>
 	</div>
 </div>

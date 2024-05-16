@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
@@ -190,6 +190,7 @@ def favorite_list(request):
 @login_required(login_url='/not_login')
 def story_details(request, story_id):
     story = models.Story.objects.get(id = story_id)
+    comments = Comment.objects.filter(story = story).order_by("-created_at")
     if request.method == 'POST':
         form = StoryCommentForm(request.POST)
         if form.is_valid():
@@ -204,7 +205,23 @@ def story_details(request, story_id):
     else:
         form = StoryCommentForm()
         rate = models.Rate.get_user_rate(request.user.id, story_id)  
-    return render(request, 'story_details.html', {'story': story, 'form':form, 'user_rate':rate})
+    return render(request, 'story_details.html', {'story': story, 'form':form, 'user_rate':rate, 'comments':comments})
+
+# Delete a comment 
+def delete_comment(request):
+    if request.method == 'POST':
+        comment_id = request.POST.get('comment_id')
+        comment = get_object_or_404(Comment, id=comment_id)
+        if request.user == comment.user_who_comment:
+            comment.delete()
+            messages.success(request, 'Comment deleted successfully.')
+        else:
+            messages.error(request, 'You are not authorized to delete this comment.')
+    else:
+        messages.error(request, 'Invalid request method.')
+    
+    # Redirect back to the story details page
+    return redirect('story_details', story_id=request.POST.get('id', 0))  
 
 # Story Details page
 # This function is used to add rate to specifiy stroy 
@@ -214,13 +231,3 @@ def add_rate(request, story_id, rate):
         models.Rate.change_story_rate(story_id, rate)
         return JsonResponse({'success': True}) 
 
-# Delete a comment 
-def delete_comment(request):
-    if request.session['login'] == True:
-        if (request.method == 'POST'):
-            models.delete_comment(request.POST)
-            id = request.POST['id']
-            return redirect("/story/"+id)
-    else: 
-        # Else render a template containing the SweetAlert message and go back to root route
-        return render(request, "story_details.html")    
