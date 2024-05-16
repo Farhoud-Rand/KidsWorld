@@ -9,6 +9,7 @@ from django.conf import settings
 from django.template.loader import get_template
 from . import models
 
+
 # About us page 
 # This function renders about us page 
 def about_view(request):
@@ -189,23 +190,31 @@ def favorite_list(request):
 # this function to render to story_details page
 @login_required(login_url='/not_login')
 def story_details(request, story_id):
-    story = models.Story.objects.get(id = story_id)
-    comments = Comment.objects.filter(story = story).order_by("-created_at")
+    story = models.Story.objects.get(id=story_id)
+    comments = Comment.objects.filter(story=story).order_by("-created_at")
+    
     if request.method == 'POST':
         form = StoryCommentForm(request.POST)
         if form.is_valid():
             form.instance.user_who_comment = request.user
-            form.instance.story = models.get_story_by_id(story_id)
-            form.save()     
+            form.instance.story = story
+            form.save()
             return JsonResponse({'success': True})  
-            
         else:
             errors = {field: [error for error in errors] for field, errors in form.errors.items()}
-            return JsonResponse({'success': False, 'errors': errors}, status=400)
+            return JsonResponse(errors, status=400)  # Return validation errors as JSON
     else:
         form = StoryCommentForm()
-        rate = models.Rate.get_user_rate(request.user.id, story_id)  
-    return render(request, 'story_details.html', {'story': story, 'form':form, 'user_rate':rate, 'comments':comments})
+        rate = models.Rate.get_user_rate(request.user.id, story_id)
+    return render(request, 'story_details.html', {'story': story, 'form': form, 'user_rate': rate, 'comments': comments})
+
+# Story Details page
+# This function is used to add rate to specifiy stroy 
+def add_rate(request, story_id, rate):
+    if request.method == 'POST':
+        models.Rate.add_rate(request.user.id, story_id, rate)
+        models.Rate.change_story_rate(story_id, rate)
+        return JsonResponse({'success': True}) 
 
 # Delete a comment 
 def delete_comment(request):
@@ -219,15 +228,6 @@ def delete_comment(request):
             messages.error(request, 'You are not authorized to delete this comment.')
     else:
         messages.error(request, 'Invalid request method.')
-    
-    # Redirect back to the story details page
-    return redirect('story_details', story_id=request.POST.get('id', 0))  
 
-# Story Details page
-# This function is used to add rate to specifiy stroy 
-def add_rate(request, story_id, rate):
-    if request.method == 'POST':
-        models.Rate.add_rate(request.user.id, story_id, rate)
-        models.Rate.change_story_rate(story_id, rate)
-        return JsonResponse({'success': True}) 
-
+# Redirect back to the story details page
+    return redirect('story_details', story_id=request.POST.get('id', 0))

@@ -202,16 +202,26 @@
 		<h3 class="col-lg-11  mx-auto">Add Comment</h3>
 		<div class="col-8 mx-5 px-3 ">
       <form id="comment-form" class="user-form" method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <div class="col-lg-12">
-            <div class="row align-items-center">
-                <div class="col-12">
-                    <button type="submit" id="comment" class="default-btn">Add Comment</button>
-                </div>
-            </div>
-        </div>
-    </form>
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="col-lg-12">
+              <div class="row align-items-center">
+                  <div class="col-12">
+                      <button type="submit" id="comment" class="default-btn">Add Comment</button>
+                      <div class="comment_error"></div>
+                  </div>
+              </div>
+          </div>
+      </form>
+      <div class="col-lg-12">
+          <div class="row align-items-center">
+              <div class="col-12">
+                  <!-- Placeholder element for displaying error message -->
+                  <div id="comment_content_error" class="invalid-feedback"></div>
+              </div>
+          </div>
+      </div>
+  </div>
       <h3 class="col-lg-11  mx-auto">Story Comments:</h3>
       <div class="card">
           <ul class="list-group list-group-flush" id="show_comments">
@@ -294,6 +304,8 @@
       <i class="ri-arrow-up-s-fill"></i>
     </div>
     <!-- End Go Top Area -->
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const ratingContainers = document.querySelector('.rate');
@@ -376,17 +388,55 @@ function sendRate(currentRating){
       console.log(data)
     }
   })
-
 }
-</script>
 
-    
-    <!-- Include jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+$(document).ready(function() {
+  $('#comment-form').submit(function(event) {
+      event.preventDefault(); // Prevent default form submission
+      // Clear existing errors
+      $('.is-invalid').removeClass('is-invalid');
+      $('.invalid-feedback').remove();
+      
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(), // Serialize form data
+        success: function(response) {
+            if (response.success) {
+              // Clear the comment form
+              $('#comment-form')[0].reset();
+              // Update the story comments section
+              $('#show_comments').load(window.location.href + ' #show_comments');
+            } else {
+                // Handle unexpected response
+                console.error('Unexpected response:', response);
+            }
+        },
+        error: function(xhr, errmsg, err) {
+            // Handle error response (validation errors, etc.)
+            if (xhr.status === 400) {
+                var errors = xhr.responseJSON;
+                if (errors) {
+                    // Display errors in form
+                    $.each(errors, function(field, fieldErrors) {
+                        $('#id_' + field).addClass('is-invalid'); // Add is-invalid class to field
+                        $('#id_' + field).parent().append('<div class="invalid-feedback">' + fieldErrors.join('<br>') + '</div>'); // Display error messages
+                    });
+                } else {
+                    // Handle unexpected error
+                    console.error('Unexpected error:', errmsg, err);
+                }
+            } else {
+                // Handle other HTTP errors
+                console.error('HTTP Error:', xhr.status, xhr.statusText);
+            }
+        }
+    });
+  });
+});
+</script>
     <!-- the PDF.js library -->
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
-    <!-- Jquery Min JS -->
-    <script src="{% static 'js/jquery.min.js' %}"></script>
     <!-- Bootstrap Bundle Min JS -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <!-- Meanmenu Min JS -->

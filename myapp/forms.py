@@ -85,6 +85,9 @@ class StoryCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment_content']
+        widgets = {
+            'comment_content': forms.TextInput(),
+        }
 
 
     def clean(self):
