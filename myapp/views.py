@@ -153,10 +153,8 @@ def home_view(request):
 @login_required(login_url='/not_login')
 def search_stories(request):
     if request.method == 'POST':
-        print(request.POST)
         title = request.POST.get('title')
         stories = Story.objects.filter(title__contains=title)
-        print(stories)
         context = {
             "all_stories" : stories
         }
