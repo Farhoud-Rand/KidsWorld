@@ -263,3 +263,12 @@ RECEIVERS_EMAILS = ['r.farhoud2000@gmail.com', 'sajedaabuayyash8@gmail.com']
 
 STORAGES = 'whitenoise.storage.CompressedStaticFilesStorage'
 WHITENOISE_AUTOREFRESH = True
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
