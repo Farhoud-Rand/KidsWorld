@@ -2584,8 +2584,8 @@ INNER PAGES STYLE AREA
 Page Title Area Style
 =====================================================*/
 .page-title-area {
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   position: relative;
   z-index: 1;
   background-position: center center;
@@ -2593,6 +2593,19 @@ Page Title Area Style
   background-size: cover;
   height: 100%;
 }
+
+.page-title-gif {
+  position: absolute; /* Position the GIF absolutely within the .page-title-area */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset to truly center the GIF */
+  width: 1300px; /* Adjust width or height as needed */
+  height: 100%; /* Adjust height or width as needed */
+  max-width: 100%; /* Ensure the GIF doesn't overflow the container */
+  max-height: 100%; /* Ensure the GIF doesn't overflow the container */
+  z-index: -1; /* Ensure the GIF appears above the background */
+}
+
 .page-title-area::before {
   content: "";
   position: absolute;
@@ -2600,7 +2613,7 @@ Page Title Area Style
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #3a3650;
+  background-color: #d4f1e1;
   opacity: 0.9;
   z-index: -1;
 }
@@ -2612,7 +2625,7 @@ Page Title Area Style
 .page-title-area .page-title-content h2 {
   margin-bottom: 15px;
   font-size: 48px;
-  color: #ffffff;
+  color: #3a3650;
 }
 .page-title-area .page-title-content ul {
   padding-left: 0;
@@ -2626,14 +2639,14 @@ Page Title Area Style
   font-size: 16px;
   padding-right: 15px;
   margin-left: 15px;
-  color: #ffffff;
+  color: #3a3650;
 }
 .page-title-area .page-title-content ul li::before {
   content: "";
   position: absolute;
   top: 5px;
   right: -3px;
-  background-color: #ffffff;
+  background-color: #3a3650;
   width: 1px;
   height: 15px;
 }
@@ -2650,10 +2663,11 @@ Page Title Area Style
   display: none;
 }
 .page-title-area .page-title-content ul li a {
-  color: #ffffff;
+  color: #3a3650;
 }
 .page-title-area .page-title-content ul li a:hover {
   color: #00aa55;
+  font-weight: 600;
 }
 
 /*
