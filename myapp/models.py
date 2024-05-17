@@ -21,8 +21,8 @@ class Story(models.Model):
     genre = models.CharField(choices=CATEGORIES, max_length= 255, default='Adventure')
     language = models.CharField(choices=LANGUAGE, max_length= 255, default='English')
     age_limit = models.CharField(choices= AGE_LIMIT, max_length= 255)
-    file = models.FileField(upload_to="PDFs/", null=True) #for tesing "we must back later"
-    image = models.ImageField(upload_to="Images/", null=True)
+    file = models.FileField(upload_to="pdf_files/", null=True) #for tesing "we must back later"
+    image = models.ImageField(upload_to="image_files/", null=True)
     rate = models.FloatField(default=0.0)
     users_who_like = models.ManyToManyField(User, related_name="favorite_stories")
     created_at = models.DateTimeField(auto_now_add= True)
