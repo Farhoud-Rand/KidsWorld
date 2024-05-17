@@ -396,8 +396,8 @@ function sendRate(currentRating){
     }
   }).done((data) => {
     if (data['success'] == true){
-      console.log("DARA")
-      console.log(data)
+      // console.log("DARA")
+      // console.log(data)
     }
   })
 }
@@ -419,10 +419,7 @@ $(document).ready(function() {
               $('#comment-form')[0].reset();
               // Update the story comments section
               $('#show_comments').load(window.location.href + ' #show_comments');
-            } else {
-                // Handle unexpected response
-                console.error('Unexpected response:', response);
-            }
+            } 
         },
         error: function(xhr, errmsg, err) {
             // Handle error response (validation errors, etc.)
@@ -434,14 +431,8 @@ $(document).ready(function() {
                         $('#id_' + field).addClass('is-invalid'); // Add is-invalid class to field
                         $('#id_' + field).parent().append('<div class="invalid-feedback">' + fieldErrors.join('<br>') + '</div>'); // Display error messages
                     });
-                } else {
-                    // Handle unexpected error
-                    console.error('Unexpected error:', errmsg, err);
-                }
-            } else {
-                // Handle other HTTP errors
-                console.error('HTTP Error:', xhr.status, xhr.statusText);
-            }
+                } 
+            } 
         }
     });
   });
@@ -465,7 +456,7 @@ $(document).ready(function() {
                   $('#show_comments').load(window.location.href + ' #show_comments');
               } else {
                   // Handle unexpected response
-                  console.error('Unexpected response:', response);
+                  // console.error('Unexpected response:', response);
               }
           },
       });

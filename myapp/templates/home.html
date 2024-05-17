@@ -186,16 +186,16 @@
         </div>
 
         <div class="others-option-for-responsive">
-					<div class="container">
-						<div class="dot-menu">
-							<div class="inner">
-								<div class="circle circle-one"></div>
-								<div class="circle circle-two"></div>
-								<div class="circle circle-three"></div>
-							</div>
-						</div>
-						
-						<div class="others-option-for-responsive">
+          <div class="container">
+            <div class="dot-menu">
+              <div class="inner">
+                <div class="circle circle-one"></div>
+                <div class="circle circle-two"></div>
+                <div class="circle circle-three"></div>
+              </div>
+            </div>
+
+            <div class="others-option-for-responsive">
               <div class="container">
                 <div class="dot-menu">
                   <div class="inner">
@@ -204,7 +204,7 @@
                     <div class="circle circle-three"></div>
                   </div>
                 </div>
-                
+
                 <div class="container">
                   <div class="option-inner">
                     <div class="others-option">
@@ -213,11 +213,16 @@
                           <div class="option-item">
                             <i class="search-btn ri-search-line"></i>
                             <i class="close-btn ri-close-line"></i>
-                            
+
                             <div class="search-overlay search-popup">
-                              <div class='search-box'>
+                              <div class="search-box">
                                 <form class="search-form">
-                                  <input class="search-input" name="search" placeholder="Search" type="text">
+                                  <input
+                                    class="search-input"
+                                    name="search"
+                                    placeholder="Search"
+                                    type="text"
+                                  />
                                   <button class="search-button" type="submit">
                                     <i class="ri-search-line"></i>
                                   </button>
@@ -232,8 +237,8 @@
                 </div>
               </div>
             </div>
-					</div>
-				</div>
+          </div>
+        </div>
       </div>
       <!-- End Navbar Area -->
     </header>
@@ -243,12 +248,14 @@
       <div class="hero-slider owl-theme owl-carousel" data-slider-id="1">
         <!-- Loop through the last three stories -->
         {% for story in last_three_stories %}
-        <div class="hero-slider-item">
+        <div class="hero-slider-item" style="height: 550px !important">
           <div class="d-table">
             <div class="d-table-cell">
               <div class="container-fluid">
-                <div class="row align-items-center">
-                  <div class="col-lg-6">
+                <div
+                  class="row d-flex align-items-center justify-content-evenly"
+                >
+                  <div class="col-lg-5">
                     <div class="hero-slider-content pr-15">
                       <span class="top-title">{{ story.genre }}</span>
                       <h1>{{ story.title }}</h1>
@@ -258,18 +265,20 @@
                       </p>
                       <!-- Add more fields as needed -->
                       <div class="slider-btn">
-                        <a href="/story/{{ story.id }}" class="default-btn"> Learn more </a>
+                        <a href="/story/{{ story.id }}" class="default-btn">
+                          Learn more
+                        </a>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-lg-6">
+                  <div class="col-lg-5">
                     <div class="slider-img pl-15">
                       <!-- Use the image field of the story -->
                       <img
                         src="{{ story.image.url }}"
                         alt="Image"
-                        style="width: 875px; height: 530px"
+                        style="width: 400px; height: 400px"
                       />
                     </div>
                   </div>
@@ -325,8 +334,8 @@
         <div id="Container">
           <div class="row" id="srch_results">
             {% for story in all_stories %}
-            <div class="col-lg-4 col-md-6 mix {{ story.genre|lower }}">
-              <div class="single-event-box">
+            <div class="col-lg-3 col-md-6 mix {{ story.genre|lower }}">
+              <div class="single-event-box text-center">
                 <form
                   method="POST"
                   action="{% url 'toggle_favorite' story.id %}"
@@ -336,7 +345,7 @@
                     <img
                       src="{{ story.image.url }}"
                       alt="Image"
-                      style="width: 550px; height: 300px"
+                      style="width: 300px; height: 350px"
                     />
                     <!-- Use conditional to determine heart icon class -->
                     {% if request.user in story.users_who_like.all %}
@@ -508,9 +517,9 @@
       // search with AJAX
       $(document).ready(function () {
         $("#search_form").submit((e) => {
-          $(".search-popup").hide()
-          $('.search-btn').show();
-          $('.close-btn').removeClass('active');
+          $(".search-popup").hide();
+          $(".search-btn").show();
+          $(".close-btn").removeClass("active");
           e.preventDefault();
           // console.log(e);
           data = $("#search_form").serialize();

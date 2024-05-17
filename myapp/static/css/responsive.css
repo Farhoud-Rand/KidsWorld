@@ -32,8 +32,8 @@
   }
   .hero-slider-item {
     height: 100%;
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   .hero-slider-content {
     text-align: center;
