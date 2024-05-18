@@ -52,13 +52,10 @@ The project is deployed on AWS. You can access it [here](http://16.171.135.225/)
 To run this project locally:
 
 1. Clone the repository:
-   ```bash
    git clone https://github.com/Farhoud-Rand/KidsWorld.git
 2.Navigate to the project directory:
-   ```bash
    cd kidsworld
 3. Create a virtual environment:
-   ```bash
    python -m venv env
 4.Activate the virtual environment:
    - On Windows:
