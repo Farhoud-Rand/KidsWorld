@@ -53,22 +53,22 @@ To run this project locally:
 
 1. Clone the repository:
    git clone https://github.com/Farhoud-Rand/KidsWorld.git
-2.Navigate to the project directory:
+2. Navigate to the project directory:
    cd kidsworld
 3. Create a virtual environment:
    python -m venv env
-4.Activate the virtual environment:
+4. Activate the virtual environment:
    - On Windows:
       .\env\Scripts\activate
    - On macOS and Linux:
       source env/bin/activate
-5.Install the dependencies:
+5. Install the dependencies:
    pip install -r requirements.txt
-6.Apply migrations:
+6. Apply migrations:
    python manage.py migrate
-7.Run the development server:
+7. Run the development server:
    python manage.py runserver
-8.Open your web browser and go to http://127.0.0.1:8000/ to see the application in action.
+8. Open your web browser and go to http://127.0.0.1:8000/ to see the application in action.
 
 ## Contributors
 
