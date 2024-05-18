@@ -55,8 +55,10 @@ To run this project locally:
    ```bash
    git clone https://github.com/Farhoud-Rand/KidsWorld.git
 2.Navigate to the project directory:
+   ```bash
    cd kidsworld
-3.Create a virtual environment:
+3. Create a virtual environment:
+   ```bash
    python -m venv env
 4.Activate the virtual environment:
    - On Windows:
